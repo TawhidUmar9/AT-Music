@@ -2,20 +2,17 @@ for using in mac
 ja ja changes ante hobe, folder er structure same hoite hobe
 and db/index/js er info gula correct hoite hobe nothing else i hope 
 
-(tick)
-
 artist table e album id bad dite hobe (done)
 review id bad dite hobe.(done)
 album table e artist id add korte hobe.(done)
-
 delete on basis of id(done)
-
 
 song add korar khetre, some album/artist/ genre might not exist
 then the program will prompt the user to add some  
 so let me handle the addition of artist, genre and album first(done, also repeat handled)
 
-ekhn add song korar khetre, its like fillin a from.
+
+--ekhn add song korar khetre, its like fillin a from.
 
 
 artist_name dibo ja theke artist_id ber kora lagbe.
@@ -31,11 +28,6 @@ like korle popularity bere update kore hobe.
 
 price add korbo.
 genre_name dibo, then oikhan theke genre_name ber korte hobe.
-
-
-**song synopsis table banaite hobe, with song_id and text. then song search korar shomoy 
-join kore dite hobe....
-
 
 
 *** admin hishebe, rec_type and platfom add korte parbe??
