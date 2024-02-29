@@ -96,7 +96,7 @@ router.put("/song/:name", async (req, res) => {
         const query = `
         UPDATE song 
         SET artist_id = $1, album_id = $2, genre_id = $3 
-        WHERE name = $4;COMMIT;`;
+        WHERE name = $4;`;
         await db.query(query, [artist_id, album_id, genre_id, songName]);
 
         res.status(200).json({
@@ -122,7 +122,7 @@ router.delete("/song/:songID", async (req, res) => {
                 message: "Song ID is required"
             });
         }
-        const query = `DELETE FROM SONG WHERE song_id = $1;COMMIT;`;
+        const query = `DELETE FROM SONG WHERE song_id = $1;`;
         await db.query(query, [songID]);
         res.status(200).json({
             status: "success",
