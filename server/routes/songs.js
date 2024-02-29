@@ -12,31 +12,36 @@ router.get("/", async (req, res) => {
     try {
         const { search, sortBy = 'popularity', sortOrder = 'desc', artist, genre } = req.query;
         const queryParams = [];
-        let query = `SELECT * FROM SONG S
-        JOIN ARTIST A ON S.ARTIST_ID = A.ARTIST_ID
-        JOIN ALBUM AL ON S.ALBUM_ID = AL.ALBUM_ID
-        JOIN GENRE G ON S.GENRE_ID = G.GENRE_ID`;
+        let query = `
+            SELECT S.*, A.ARTIST_NAME, AL.ALBUM_NAME, G.GENRE_NAME 
+            FROM SONG S
+            JOIN ARTIST A ON S.ARTIST_ID = A.ARTIST_ID
+            JOIN ALBUM AL ON S.ALBUM_ID = AL.ALBUM_ID
+            JOIN GENRE G ON S.GENRE_ID = G.GENRE_ID
+            WHERE 1=1`;
 
         if (search) {
-            query += ` WHERE LOWER(NAME) LIKE LOWER($1) OR $1 IS NULL`;
+            query += ` AND LOWER(S.NAME) LIKE LOWER($${queryParams.length + 1})`;
             queryParams.push(`%${search.toLowerCase()}%`);
         }
         if (artist) {
-            query += ` AND LOWER(A.ARTIST_NAME) LIKE LOWER($2) OR $2 IS NULL`;
+            query += ` AND LOWER(A.ARTIST_NAME) LIKE LOWER($${queryParams.length + 1})`;
             queryParams.push(`%${artist.toLowerCase()}%`);
         }
         if (genre) {
             const genres = genre.split(',');
             const genreConditions =
-                genres.map((g, index) => `$${index + queryParams.length + 1}`);
+                genres.map((g, index) => `$${queryParams.length + index + 1}`);
             query += ` AND LOWER(G.GENRE_NAME) IN (${genreConditions.join(', ')})`;
-            queryParams.push(...genres.map(genre => genre.toLowerCase()));
+            queryParams.push(...genres.map(genre => `%${genre.toLowerCase()}%`));
         }
+
         const sanitizedSortBy =
             ['name', 'genre_id'].includes(sortBy.toLowerCase()) ? sortBy : 'popularity';
         const sanitizedSortOrder =
             sortOrder.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
         query += ` ORDER BY ${sanitizedSortBy} ${sanitizedSortOrder}, popularity DESC`;
+
         const results = await db.query(query, queryParams);
         res.status(200).json({
             status: "success",
@@ -51,6 +56,7 @@ router.get("/", async (req, res) => {
         });
     }
 });
+
 
 router.get("/:song_id", async (req, res) => {
     try {
