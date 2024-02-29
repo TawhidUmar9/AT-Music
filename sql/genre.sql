@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS genre (
 );
 
 -- Insert data for genres
-INSERT INTO genre (genre_name)
+INSERT INTO
+    genre (genre_name)
 VALUES
     ('Rock'),
     ('Pop'),
@@ -17,3 +18,5 @@ VALUES
     ('Electronic'),
     ('Reggae'),
     ('Classical');
+
+('Rap');

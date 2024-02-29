@@ -2,14 +2,6 @@
 CREATE TABLE IF NOT EXISTS song (
     song_id BIGSERIAL PRIMARY KEY NOT NULL,
     artist_id INTEGER NOT NULL,
-    REC_TYPE_ID INTEGER CHECK (
-        REC_TYPE_ID BETWEEN 1
-        AND 3
-    ),
-    platform_id INTEGER CHECK (
-        platform_id BETWEEN 1
-        AND 3
-    ),
     name VARCHAR NOT NULL,
     album_id INTEGER NOT NULL,
     song_length INTERVAL,
@@ -19,7 +11,7 @@ CREATE TABLE IF NOT EXISTS song (
         AND 10
     ),
     price DECIMAL,
-    genre_id INTEGER,
+    genre_id INTEGER
     CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
     CONSTRAINT fk_album FOREIGN KEY (album_id) REFERENCES album (album_id),
     CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genre (genre_id)
@@ -42,8 +34,6 @@ INSERT INTO
 VALUES
     (
         1,
-        1,
-        1,
         'Respect',
         1,
         '4:00',
@@ -53,8 +43,6 @@ VALUES
         ROUND(RANDOM() * 9 + 1)
     ),
     (
-        2,
-        2,
         2,
         'Johnny B. Goode',
         2,
@@ -66,8 +54,6 @@ VALUES
     ),
     (
         3,
-        3,
-        3,
         'Billie Jean',
         3,
         '4:30',
@@ -78,8 +64,6 @@ VALUES
     ),
     (
         4,
-        1,
-        1,
         'Rock Around The Clock',
         4,
         '2:00',
@@ -90,8 +74,6 @@ VALUES
     ),
     (
         5,
-        2,
-        2,
         'Stairway to Heaven',
         5,
         '8:00',
@@ -102,8 +84,6 @@ VALUES
     ),
     (
         6,
-        3,
-        3,
         'Louie Louie',
         6,
         '2:30',
@@ -114,8 +94,6 @@ VALUES
     ),
     (
         7,
-        1,
-        1,
         'I Heard It Through The Grapevine',
         7,
         '3:15',
@@ -126,8 +104,6 @@ VALUES
     ),
     (
         8,
-        2,
-        2,
         '(I Cant Get No) Satisfaction',
         8,
         '3:45',
@@ -138,8 +114,6 @@ VALUES
     ),
     (
         9,
-        3,
-        3,
         'Jailhouse Rock',
         9,
         '2:20',
@@ -150,8 +124,6 @@ VALUES
     ),
     (
         10,
-        1,
-        1,
         'Like A Rolling Stone',
         10,
         '6:00',
@@ -162,8 +134,6 @@ VALUES
     ),
     (
         11,
-        2,
-        2,
         'Hey Jude',
         11,
         '7:00',
@@ -174,8 +144,6 @@ VALUES
     ),
     (
         12,
-        3,
-        3,
         'Good Vibrations',
         12,
         '3:35',
@@ -186,8 +154,6 @@ VALUES
     ),
     (
         13,
-        1,
-        1,
         'Tutti-Frutti',
         13,
         '2:30',
@@ -198,8 +164,6 @@ VALUES
     ),
     (
         14,
-        2,
-        2,
         'What d I Say',
         14,
         '5:10',
@@ -210,8 +174,6 @@ VALUES
     ),
     (
         15,
-        3,
-        3,
         'Hotel California',
         15,
         '6:30',
@@ -222,8 +184,6 @@ VALUES
     ),
     (
         16,
-        1,
-        1,
         'You ve Lost That Lovin Feelin ',
         16,
         '3:45',
@@ -234,8 +194,6 @@ VALUES
     ),
     (
         17,
-        2,
-        2,
         'My Girl',
         17,
         '2:55',
@@ -246,8 +204,6 @@ VALUES
     ),
     (
         18,
-        3,
-        3,
         'Imagine',
         18,
         '3:00',
@@ -258,8 +214,6 @@ VALUES
     ),
     (
         7,
-        1,
-        1,
         'What s Going On',
         19,
         '3:50',
@@ -270,8 +224,6 @@ VALUES
     ),
     (
         19,
-        2,
-        2,
         'Smells Like Teen Spirit',
         20,
         '5:00',
@@ -282,8 +234,6 @@ VALUES
     ),
     (
         9,
-        1,
-        1,
         'Hound Dog',
         21,
         '2:20',
@@ -294,8 +244,6 @@ VALUES
     ),
     (
         20,
-        2,
-        2,
         'Born to Run',
         22,
         '4:30',
@@ -306,8 +254,6 @@ VALUES
     ),
     (
         21,
-        3,
-        3,
         'Light My Fire',
         23,
         '7:00',
@@ -318,8 +264,6 @@ VALUES
     ),
     (
         22,
-        1,
-        1,
         'Superstition',
         24,
         '4:00',
@@ -330,8 +274,6 @@ VALUES
     ),
     (
         23,
-        2,
-        2,
         'Layla',
         25,
         '7:10',
@@ -342,8 +284,6 @@ VALUES
     ),
     (
         24,
-        3,
-        3,
         'Bohemian Rhapsody',
         26,
         '5:55',
@@ -354,8 +294,6 @@ VALUES
     ),
     (
         11,
-        1,
-        1,
         'A Day In The Life',
         27,
         '5:35',
@@ -366,8 +304,6 @@ VALUES
     ),
     (
         25,
-        2,
-        2,
         'Summertime Blues',
         28,
         '1:45',
@@ -378,8 +314,6 @@ VALUES
     ),
     (
         26,
-        3,
-        3,
         'You Really Got Me',
         29,
         '2:14',
@@ -390,8 +324,6 @@ VALUES
     ),
     (
         27,
-        1,
-        1,
         'Bridge Over Troubled Water',
         30,
         '4:55',
@@ -402,8 +334,6 @@ VALUES
     ),
     (
         28,
-        2,
-        2,
         'Let s Stay Together',
         31,
         '3:18',
@@ -414,8 +344,6 @@ VALUES
     ),
     (
         13,
-        3,
-        3,
         'Long Tall Sally',
         32,
         '2:04',
@@ -426,8 +354,6 @@ VALUES
     ),
     (
         29,
-        1,
-        1,
         'Purple Haze',
         33,
         '2:51',
@@ -438,8 +364,6 @@ VALUES
     ),
     (
         11,
-        2,
-        2,
         'She Loves You',
         34,
         '2:22',
@@ -450,8 +374,6 @@ VALUES
     ),
     (
         30,
-        3,
-        3,
         'Whole Lot of Shakin Going On',
         35,
         '2:42',
@@ -462,8 +384,6 @@ VALUES
     ),
     (
         31,
-        1,
-        1,
         'Thatll Be The Day',
         36,
         '2:18',
@@ -474,8 +394,6 @@ VALUES
     ),
     (
         32,
-        2,
-        2,
         'Every Breath You Take',
         37,
         '4:13',
@@ -486,8 +404,6 @@ VALUES
     ),
     (
         33,
-        3,
-        3,
         'Hey Ya',
         38,
         '3:55',
@@ -498,8 +414,6 @@ VALUES
     ),
     (
         2,
-        1,
-        1,
         'Maybellene',
         2,
         '2:18',
@@ -510,8 +424,6 @@ VALUES
     ),
     (
         34,
-        2,
-        2,
         'Bo Diddley',
         39,
         '2:30',
@@ -522,8 +434,6 @@ VALUES
     ),
     (
         35,
-        3,
-        3,
         'Papa s Got A Brand New Bag',
         40,
         '2:08',
@@ -534,8 +444,6 @@ VALUES
     ),
     (
         36,
-        1,
-        1,
         'When Doves Cry',
         41,
         '5:52',
@@ -546,8 +454,6 @@ VALUES
     ),
     (
         37,
-        2,
-        2,
         'My Generation',
         42,
         '3:18',
@@ -558,8 +464,6 @@ VALUES
     ),
     (
         38,
-        3,
-        3,
         'Losing My Religion',
         43,
         '4:28',
@@ -570,8 +474,6 @@ VALUES
     ),
     (
         39,
-        1,
-        1,
         'Sunshine Of Your Love',
         44,
         '4:10',
@@ -582,8 +484,6 @@ VALUES
     ),
     (
         5,
-        2,
-        2,
         'Whole Lotta Love',
         45,
         '5:33',
@@ -594,8 +494,6 @@ VALUES
     ),
     (
         40,
-        3,
-        3,
         'One',
         46,
         '7:27',
@@ -606,8 +504,6 @@ VALUES
     ),
     (
         41,
-        1,
-        1,
         'A Change Is Gonna Come',
         47,
         '3:16',
@@ -618,8 +514,6 @@ VALUES
     ),
     (
         29,
-        2,
-        2,
         'All Along The Watchtower',
         48,
         '4:00',
@@ -630,8 +524,6 @@ VALUES
     ),
     (
         42,
-        3,
-        3,
         'The Message',
         49,
         '7:11',
@@ -642,8 +534,6 @@ VALUES
     ),
     (
         30,
-        1,
-        1,
         'Great Balls Of Fire',
         50,
         '1:50',
@@ -654,8 +544,6 @@ VALUES
     ),
     (
         43,
-        2,
-        2,
         'In The Midnight Hour',
         51,
         '2:40',
@@ -666,8 +554,6 @@ VALUES
     ),
     (
         44,
-        3,
-        3,
         'Mr. Tambourine Man',
         52,
         '5:29',
@@ -678,8 +564,6 @@ VALUES
     ),
     (
         45,
-        1,
-        1,
         'Proud Mary',
         53,
         '3:07',
@@ -690,8 +574,6 @@ VALUES
     ),
     (
         46,
-        2,
-        2,
         'Shake, Rattle And Roll',
         54,
         '3:14',
@@ -702,8 +584,6 @@ VALUES
     ),
     (
         47,
-        3,
-        3,
         'Walk This Way',
         55,
         '3:41',
@@ -714,8 +594,6 @@ VALUES
     ),
     (
         11,
-        1,
-        1,
         'Let It Be',
         56,
         '4:03',
@@ -726,8 +604,6 @@ VALUES
     ),
     (
         48,
-        2,
-        2,
         'Maggie May',
         57,
         '5:46',
@@ -738,8 +614,6 @@ VALUES
     ),
     (
         49,
-        3,
-        3,
         'American Pie',
         58,
         '8:33',
@@ -750,8 +624,6 @@ VALUES
     ),
     (
         50,
-        1,
-        1,
         '(Sittin On) The Dock Of The Bay',
         59,
         '2:43',
@@ -762,8 +634,6 @@ VALUES
     ),
     (
         9,
-        2,
-        2,
         'Blue Suede Shoes',
         60,
         '2:02',
@@ -774,8 +644,6 @@ VALUES
     ),
     (
         9,
-        3,
-        3,
         'Dont Be Cruel',
         61,
         '2:02',
@@ -786,8 +654,6 @@ VALUES
     ),
     (
         37,
-        1,
-        1,
         'Wont Get Fooled Again',
         62,
         '8:32',
@@ -798,8 +664,6 @@ VALUES
     ),
     (
         51,
-        2,
-        2,
         'Stayin Alive',
         63,
         '4:45',
@@ -810,8 +674,6 @@ VALUES
     ),
     (
         52,
-        3,
-        3,
         'Free Bird',
         64,
         '9:08',
@@ -822,8 +684,6 @@ VALUES
     ),
     (
         53,
-        1,
-        1,
         'Nuthin But a "G" Thang',
         65,
         '3:58',
@@ -834,8 +694,6 @@ VALUES
     ),
     (
         8,
-        2,
-        2,
         'Brown Sugar',
         66,
         '3:51',
@@ -846,8 +704,6 @@ VALUES
     ),
     (
         7,
-        3,
-        3,
         'Lets Get It On',
         67,
         '4:51',
@@ -858,8 +714,6 @@ VALUES
     ),
     (
         54,
-        1,
-        1,
         'When A Man Loves A Woman',
         68,
         '2:51',
@@ -870,8 +724,6 @@ VALUES
     ),
     (
         11,
-        2,
-        2,
         'I Want To Hold Your Hand',
         59,
         '2:24',
@@ -882,8 +734,6 @@ VALUES
     ),
     (
         9,
-        3,
-        3,
         'Good Rockin'' Tonight',
         69,
         '2:15',
@@ -894,8 +744,6 @@ VALUES
     ),
     (
         55,
-        1,
-        1,
         'Stand By Me',
         70,
         '2:58',
@@ -906,8 +754,6 @@ VALUES
     ),
     (
         56,
-        2,
-        2,
         'I Will Survive',
         71,
         '4:54',
@@ -918,8 +764,6 @@ VALUES
     ),
     (
         57,
-        3,
-        3,
         'Super Freak',
         72,
         '3:25',
@@ -930,8 +774,6 @@ VALUES
     ),
     (
         58,
-        1,
-        1,
         'A Whiter Shade Of Pale',
         73,
         '4:07',
@@ -942,8 +784,6 @@ VALUES
     ),
     (
         59,
-        2,
-        2,
         'Be My Baby',
         74,
         '2:42',
@@ -954,8 +794,6 @@ VALUES
     ),
     (
         60,
-        3,
-        3,
         'Go Your Own Way',
         75,
         '3:43',
@@ -966,8 +804,6 @@ VALUES
     ),
     (
         17,
-        1,
-        1,
         'Papa Was a Rollin Stone',
         76,
         '6:55',
@@ -978,8 +814,6 @@ VALUES
     ),
     (
         61,
-        2,
-        2,
         'House Of The Rising Sun',
         77,
         '4:29',
@@ -990,8 +824,6 @@ VALUES
     ),
     (
         11,
-        3,
-        3,
         'Yesterday',
         78,
         '2:03',
@@ -1002,8 +834,6 @@ VALUES
     ),
     (
         62,
-        1,
-        1,
         'Where Did Our Love Go',
         79,
         '2:32',
@@ -1014,8 +844,6 @@ VALUES
     ),
     (
         63,
-        2,
-        2,
         'Rappers Delight',
         80,
         '14:35',
@@ -1026,8 +854,6 @@ VALUES
     ),
     (
         64,
-        3,
-        3,
         'I Want You Back',
         81,
         '2:59',
@@ -1038,8 +864,6 @@ VALUES
     ),
     (
         65,
-        1,
-        1,
         'I Love Rock N Roll',
         82,
         '2:55',
@@ -1050,8 +874,6 @@ VALUES
     ),
     (
         66,
-        2,
-        2,
         'Dont You Want Me?',
         59,
         '3:57',
@@ -1062,8 +884,6 @@ VALUES
     ),
     (
         67,
-        3,
-        3,
         'Jeremy',
         83,
         '5:18',
@@ -1074,8 +894,6 @@ VALUES
     ),
     (
         9,
-        1,
-        1,
         'Heartbreak Hotel',
         84,
         '2:08',
@@ -1086,8 +904,6 @@ VALUES
     ),
     (
         68,
-        2,
-        2,
         'Like a Virgin',
         85,
         '3:11',
@@ -1097,8 +913,6 @@ VALUES
         ROUND(RANDOM() * 9 + 1)
     ),
     (
-        3,
-        3,
         3,
         'Beat It',
         86,
@@ -1110,8 +924,6 @@ VALUES
     ),
     (
         69,
-        1,
-        1,
         'Sweet Child O Mine',
         87,
         '5:56',
@@ -1122,8 +934,6 @@ VALUES
     ),
     (
         70,
-        2,
-        2,
         'Under the Bridge',
         88,
         '4:24',
@@ -1134,8 +944,6 @@ VALUES
     ),
     (
         71,
-        3,
-        3,
         'Your Song',
         89,
         '4:02',
@@ -1146,8 +954,6 @@ VALUES
     ),
     (
         72,
-        1,
-        1,
         'Dancing 24',
         90,
         '3:31',
@@ -1158,8 +964,6 @@ VALUES
     ),
     (
         27,
-        2,
-        2,
         'The Sounds Of Silence',
         91,
         '3:08',
@@ -1170,8 +974,6 @@ VALUES
     ),
     (
         73,
-        3,
-        3,
         'Dont Stop Believin''',
         92,
         '4:11',
@@ -1182,8 +984,6 @@ VALUES
     ),
     (
         74,
-        1,
-        1,
         'Soul Man',
         93,
         '2:36',
@@ -1194,8 +994,6 @@ VALUES
     ),
     (
         75,
-        2,
-        2,
         'You Shook Me All Night Long',
         94,
         '3:30',
@@ -1206,8 +1004,6 @@ VALUES
     ),
     (
         76,
-        3,
-        3,
         'Bye Bye Love',
         95,
         '2:20',
@@ -1218,8 +1014,6 @@ VALUES
     ),
     (
         77,
-        1,
-        1,
         'Earth Angel',
         94,
         '2:53',
@@ -1230,8 +1024,6 @@ VALUES
     ),
     (
         78,
-        2,
-        2,
         'Crazy',
         96,
         '4:41',

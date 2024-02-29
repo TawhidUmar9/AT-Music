@@ -11,12 +11,17 @@ const songRoute = require('./routes/songs');
 const artistRoute = require('./routes/artist');
 const adminRoute = require('./routes/admin');
 const userRoute = require('./routes/user');
+const loginRoute = require('./routes/login');
+const registerRoute = require('./routes/register');
+
 
 
 app.use('/api/v1/song', songRoute);
 app.use('/api/v1/artist', artistRoute);
 app.use('/api/v1/admin', adminRoute);
 app.use('/api/v1/user', userRoute);
+app.use('/api/v1/login', loginRoute);
+app.use('/api/v1/register', registerRoute);
 
 
 app.listen(port, () => {
