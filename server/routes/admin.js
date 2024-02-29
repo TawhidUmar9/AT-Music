@@ -4,6 +4,39 @@ const db = require('../db');
 
 
 
+router.get("/", async (req, res) => {
+    try {
+        const songCount = await db.query("SELECT COUNT(*) FROM song");
+        const artistCount = await db.query("SELECT COUNT(*) FROM artist");
+        const albumCount = await db.query("SELECT COUNT(*) FROM album");
+        const genreCount = await db.query("SELECT COUNT(*) FROM genre");
+        const platformCount = await db.query("SELECT COUNT(*) FROM platform");
+        const recordingCount = await db.query("SELECT COUNT(*) FROM rec_type");
+        const userCount = await db.query("SELECT COUNT(*) FROM user_db");
+
+        res.status(200).json({
+            status: "success",
+            data: {
+                songCount: songCount.rows[0].count,
+                artistCount: artistCount.rows[0].count,
+                albumCount: albumCount.rows[0].count,
+                genreCount: genreCount.rows[0].count,
+                platformCount: platformCount.rows[0].count,
+                recordingCount: recordingCount.rows[0].count,
+                userCount: userCount.rows[0].count
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        });
+    }
+})
+
+
+
 //Get all songs
 router.get("/update", async (req, res) => {
     try {
@@ -26,26 +59,58 @@ router.get("/update", async (req, res) => {
 router.put("/song/:name", async (req, res) => {
     try {
         const songName = req.params.name;
-        const { artist, genre, popularity } = req.body;
+        const { artist, album, genre } = req.body;
+        if (!songName || !artist || !album || !genre) {
+            return res.status(400).json({
+                status: "error",
+                message: "Song name, artist name, album name, and genre name are required"
+            });
+        }
+        const artistQuery = `SELECT artist_id FROM artist WHERE LOWER(artist_name) = LOWER($1)`;
+        const artistResult = await db.query(artistQuery, [artist]);
+        if (artistResult.rows.length === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Artist not found"
+            });
+        }
+        const artist_id = artistResult.rows[0].artist_id;
 
-        // Construct the SQL query to update the song
-        const query = `UPDATE SONG 
-                       SET ARTIST_ID = $1, GENRE_ID = $2, POPULARITY = $3 
-                       WHERE LOWER(NAME) = LOWER($4)`;
+        const albumQuery = `SELECT album_id FROM album WHERE LOWER(album_name) = LOWER($1)`;
+        const albumResult = await db.query(albumQuery, [album]);
+        if (albumResult.rows.length === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Album not found"
+            });
+        }
+        const album_id = albumResult.rows[0].album_id;
 
-        // Execute the query to update the song
-        await db.query(query, [artist, genre, popularity, songName]);
+        const genreQuery = `SELECT genre_id FROM genre WHERE LOWER(genre_name) = LOWER($1)`;
+        const genreResult = await db.query(genreQuery, [genre]);
+        if (genreResult.rows.length === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Genre not found"
+            });
+        }
+        const genre_id = genreResult.rows[0].genre_id;
 
-        // Send response indicating successful update
+        const query = `
+        UPDATE song 
+        SET artist_id = $1, album_id = $2, genre_id = $3 
+        WHERE name = $4;COMMIT;`;
+        await db.query(query, [artist_id, album_id, genre_id, songName]);
+
         res.status(200).json({
             status: "success",
             message: `Song '${songName}' updated successfully`
         });
     } catch (err) {
-        console.error(err); // Log the error for debugging
+        console.error(err);
         res.status(500).json({
             status: "error",
-            message: err.message // Return the specific error message
+            message: err.message
         });
     }
 });
