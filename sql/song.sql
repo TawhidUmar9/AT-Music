@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS song (
         AND 10
     ),
     price DECIMAL,
-    genre_id INTEGER CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
+    genre_id INTEGER,
+    CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
     CONSTRAINT fk_album FOREIGN KEY (album_id) REFERENCES album (album_id),
     CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genre (genre_id)
 );

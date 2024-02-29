@@ -17,6 +17,15 @@ VALUES
     ('Blues'),
     ('Electronic'),
     ('Reggae'),
-    ('Classical');
-
-('Rap');
+    ('Classical'),
+    ('Rap'),
+    ('Trap'),
+    ('Soul'),
+    ('Folk'),
+    ('Indie'),
+    ('Metal'),
+    ('Punk'),
+    ('Alternative'),
+    ('K-Pop'),
+    ('Latin');
+    

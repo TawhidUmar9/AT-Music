@@ -55,16 +55,25 @@ router.get("/", async (req, res) => {
 router.get("/:song_id", async (req, res) => {
     try {
         const song_id = req.params.song_id;
-        const query = `SELECT * FROM SONG S
+        const query = `SELECT 
+        S.NAME, S.SONG_LENGTH, S.POPULARITY, A.ARTIST_NAME, AL.ALBUM_NAME, G.GENRE_NAME, 
+        P.PLATFORM_NAME, RT.RECTYPE_NAME        
+        FROM SONG S
         JOIN ARTIST A ON S.ARTIST_ID = A.ARTIST_ID
         JOIN ALBUM AL ON S.ALBUM_ID = AL.ALBUM_ID
         JOIN GENRE G ON S.GENRE_ID = G.GENRE_ID
-        WHERE song_id = $1`;
+        JOIN PLATFORM_SONG PS ON S.SONG_ID = PS.SONG_ID
+        JOIN RECORDING_SONG RTS ON RTS.SONG_ID = S.SONG_ID
+        JOIN PLATFORM P ON PS.PLATFORM_ID = P.PLATFORM_ID
+        JOIN REC_TYPE RT ON RTS.RECTYPE_ID = RT.RECTYPE_ID
+        WHERE S.song_id = $1`;
+
         const result = await db.query(query, [song_id]);
         res.status(200).json({
             status: "success",
             data: result.rows[0]
         });
+
     } catch (err) {
         console.error(err);
         res.status(500).json({
