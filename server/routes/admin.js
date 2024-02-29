@@ -34,7 +34,6 @@ router.get("/", async (req, res) => {
         });
     }
 })
-
 router.get("/update", async (req, res) => {
     try {
         const results =
@@ -51,7 +50,6 @@ router.get("/update", async (req, res) => {
         console.log(err);
     }
 });
-
 //update song.
 router.put("/song/:name", async (req, res) => {
     try {
@@ -121,7 +119,6 @@ router.put("/song/:name", async (req, res) => {
         });
     }
 });
-
 //delete song as admin.
 router.delete("/song/:songID", async (req, res) => {
     try {
