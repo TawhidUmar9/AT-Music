@@ -322,8 +322,7 @@ router.post("/review", async (req, res) => {
 });
 
 //creating new playlist
-
-router.post("/add", async (req, res) => {
+router.post("/create", async (req, res) => {
     try {
         const { user_id, playlist_name } = req.body;
         if (!user_id || !playlist_name) {
@@ -439,15 +438,16 @@ router.post("/add/:song_id", async (req, res) => {
     }
 });
 
-router.post("/add/:playlist_name", async (req, res) => {
+//adds song to existing playlist
+router.post("/add/playlist/:playlist_name", async (req, res) => {
     try {
-        const { song_id, user_id } = req.body;
+        const { song_id } = req.body;
         const playlist_name = req.params.playlist_name;
 
-        if (!song_id || !user_id) {
+        if (!song_id) {
             return res.status(400).json({
                 status: "error",
-                message: "Song ID and User ID are required"
+                message: "Song ID are required"
             });
         }
 
@@ -455,10 +455,9 @@ router.post("/add/:playlist_name", async (req, res) => {
         const playlistCheckQuery = `
             SELECT playlist_id 
             FROM user_playlist 
-            WHERE user_id = $1 
-                AND LOWER(playlist_name) = LOWER($2)`;
+            WHERE LOWER(playlist_name) = LOWER($1)`;
 
-        const playlistCheckResult = await db.query(playlistCheckQuery, [user_id, playlist_name]);
+        const playlistCheckResult = await db.query(playlistCheckQuery, [playlist_name]);
 
         if (playlistCheckResult.rows.length === 0) {
             return res.status(404).json({
