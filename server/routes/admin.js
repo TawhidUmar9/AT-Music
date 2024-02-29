@@ -146,7 +146,6 @@ router.delete("/song/:songID", async (req, res) => {
         });
     }
 });
-
 //add
 router.post("/artist", async (req, res) => {
     try {
@@ -266,7 +265,6 @@ router.post("/genre", async (req, res) => {
         });
     }
 });
-
 //add song
 router.post("/song", async (req, res) => {
     try {

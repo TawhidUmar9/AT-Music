@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
     try {
         if (userType === 'user') {
             // Perform authentication logic (replace this with your actual authentication logic)
-            const result = await db.query('SELECT * FROM user_account WHERE user_name = $1 AND user_password = $2', [username, password]);
+            const result = await db.query('SELECT * FROM user_db WHERE username = $1 AND password = $2', [username, password]);
 
             if (result.rows.length > 0) {
                 // Authentication successful

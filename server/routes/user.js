@@ -45,7 +45,6 @@ router.post("/song", async (req, res) => {
         });
     }
 });
-
 router.post("/artist", async (req, res) => {
     try {
         const { user_id, artist_id } = req.body;
@@ -186,7 +185,7 @@ router.delete("/song", async (req, res) => {
                 message: "User has not liked this song"
             });
         }
-        
+
         const deleteQuery = `DELETE FROM liked_song WHERE user_id = $1 AND song_id = $2`;
         await db.query(deleteQuery, [user_id, song_id]);
         res.status(200).json({
@@ -201,7 +200,6 @@ router.delete("/song", async (req, res) => {
         });
     }
 })
-
 router.delete("/artist", async (req, res) => {
     try {
         const { user_id, artist_id } = req.body;
@@ -225,7 +223,6 @@ router.delete("/artist", async (req, res) => {
         });
     }
 })
-
 router.delete("/album", async (req, res) => {
     try {
         const { user_id, album_id } = req.body;
@@ -249,7 +246,6 @@ router.delete("/album", async (req, res) => {
         });
     }
 })
-
 router.delete("/genre", async (req, res) => {
     try {
         const { user_id, genre_id } = req.body;
@@ -273,6 +269,60 @@ router.delete("/genre", async (req, res) => {
         });
     }
 })
+
+router.post("/review", async (req, res) => {
+    try {
+        const { user_id, song_id, review_text, rating } = req.body;
+        if (!user_id || !song_id ||  !rating) {
+            return res.status(400).json({
+                status: "error",
+                message: "User ID, Song ID, Review Text, and Rating are required"
+            });
+        }
+        if (rating > 10) {
+            return res.status(400).json({
+                status: "error",
+                message: "Rating cannot be greater than 10"
+            });
+        }
+        
+        // Check if the review already exists for the user and song
+        const checkQuery = `SELECT * FROM reviews WHERE user_id = $1 AND song_id = $2`;
+        const checkResult = await db.query(checkQuery, [user_id, song_id]);
+        
+        if (checkResult.rows.length > 0) {
+            // If the review already exists, update it
+            const updateQuery = `
+                UPDATE reviews
+                SET review_text = $1, rating = $2, review_date = $3
+                WHERE user_id = $4 AND song_id = $5
+            `;
+            await db.query(updateQuery, [review_text, rating, new Date(), user_id, song_id]);
+        } else {
+            // If the review doesn't exist, insert a new one
+            const insertQuery = `
+                INSERT INTO reviews (user_id, song_id, review_text, rating, review_date)
+                VALUES ($1, $2, $3, $4, $5)
+            `;
+            await db.query(insertQuery, [user_id, song_id, review_text, rating, new Date()]);
+        }
+        
+        res.status(200).json({
+            status: "success",
+            message: `Review added successfully`
+        });
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
+        });
+    }
+});
+
+
+
 
 
 module.exports = router;

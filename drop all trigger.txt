@@ -1,0 +1,18 @@
+-- Step 1: Query the PostgreSQL system catalog to retrieve triggers
+SELECT tgname, tgrelid::regclass AS table_name, tgdeferrable, tginitdeferred, tgnargs, tgconstrrelid::regclass AS constraint_table
+INTO TEMP dropped_triggers
+FROM pg_trigger;
+
+-- Step 2: Generate SQL commands to drop triggers
+DO $$
+DECLARE
+    trigger_record RECORD;
+BEGIN
+    FOR trigger_record IN SELECT * FROM dropped_triggers LOOP
+        RAISE NOTICE 'Dropping trigger: %', trigger_record.tgname;
+        EXECUTE 'DROP TRIGGER IF EXISTS ' || trigger_record.tgname || ' ON ' || trigger_record.table_name;
+    END LOOP;
+END $$;
+
+-- Step 3: Clean up temporary table
+DROP TABLE IF EXISTS dropped_triggers;
