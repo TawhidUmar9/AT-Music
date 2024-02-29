@@ -29,18 +29,20 @@ router.get("/", async (req, res) => {
             queryParams.push(`%${artist.toLowerCase()}%`);
         }
         if (genre) {
-            const genres = genre.split(',');
-            const genreConditions =
-                genres.map((g, index) => `$${queryParams.length + index + 1}`);
-            query += ` AND LOWER(G.GENRE_NAME) IN (${genreConditions.join(', ')})`;
-            queryParams.push(...genres.map(genre => `%${genre.toLowerCase()}%`));
+            query += ` AND LOWER(G.GENRE_NAME) LIKE LOWER($${queryParams.length + 1})`;
+            queryParams.push(`%${genre.toLowerCase()}%`);
         }
 
-        const sanitizedSortBy =
-            ['name', 'genre_id'].includes(sortBy.toLowerCase()) ? sortBy : 'popularity';
-        const sanitizedSortOrder =
-            sortOrder.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
-        query += ` ORDER BY ${sanitizedSortBy} ${sanitizedSortOrder}, popularity DESC`;
+        let orderByClause = '';
+        if (sortBy === 'popularity') {
+            orderByClause = `popularity ${sortOrder.toUpperCase()}`;
+        } else if (sortBy === 'price') {
+            orderByClause = `price ${sortOrder.toUpperCase()}`;
+        } else {
+            orderByClause = `${sortBy} ${sortOrder.toUpperCase()}, popularity DESC`;
+        }
+
+        query += ` ORDER BY ${orderByClause}`;
 
         const results = await db.query(query, queryParams);
         res.status(200).json({
