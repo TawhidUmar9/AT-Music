@@ -273,7 +273,7 @@ router.delete("/genre", async (req, res) => {
 router.post("/review", async (req, res) => {
     try {
         const { user_id, song_id, review_text, rating } = req.body;
-        if (!user_id || !song_id ||  !rating) {
+        if (!user_id || !song_id || !rating) {
             return res.status(400).json({
                 status: "error",
                 message: "User ID, Song ID, Review Text, and Rating are required"
@@ -285,11 +285,11 @@ router.post("/review", async (req, res) => {
                 message: "Rating cannot be greater than 10"
             });
         }
-        
+
         // Check if the review already exists for the user and song
         const checkQuery = `SELECT * FROM reviews WHERE user_id = $1 AND song_id = $2`;
         const checkResult = await db.query(checkQuery, [user_id, song_id]);
-        
+
         if (checkResult.rows.length > 0) {
             // If the review already exists, update it
             const updateQuery = `
@@ -306,12 +306,12 @@ router.post("/review", async (req, res) => {
             `;
             await db.query(insertQuery, [user_id, song_id, review_text, rating, new Date()]);
         }
-        
+
         res.status(200).json({
             status: "success",
             message: `Review added successfully`
         });
-        
+
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -320,6 +320,192 @@ router.post("/review", async (req, res) => {
         });
     }
 });
+
+//creating new playlist
+
+router.post("/add", async (req, res) => {
+    try {
+        const { user_id, playlist_name } = req.body;
+        if (!user_id || !playlist_name) {
+            return res.status(400).json({
+                status: "error",
+                message: "User ID and Playlist Name are required"
+            });
+        }
+
+        // Check if the playlist already exists for the user
+        const playlistCheckQuery = `
+            SELECT playlist_id 
+            FROM user_playlist 
+            WHERE user_id = $1 
+                AND LOWER(playlist_name) = LOWER($2)`;
+
+        const playlistCheckResult = await db.query(playlistCheckQuery, [user_id, playlist_name]);
+
+        if (playlistCheckResult.rows.length === 0) {
+            // If playlist doesn't exist, insert it into the user_playlist table
+            const insertPlaylistQuery = `
+                INSERT INTO user_playlist (user_id, playlist_name) 
+                VALUES ($1, $2) RETURNING playlist_id`;
+            const insertPlaylistResult = await db.query(insertPlaylistQuery, [user_id, playlist_name]);
+
+            res.status(200).json({
+                status: "success",
+                message: "Playlist Created"
+            });
+        } else {
+            res.status(400).json({
+                status: "error",
+                message: "Playlist already exists for the user"
+            });
+        }
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
+        });
+    }
+});
+
+//creating new playlist and adding the song.
+router.post("/add/:song_id", async (req, res) => {
+    try {
+        song_id = req.params.song_id;
+        const { user_id, playlist_name } = req.body;
+        if (!user_id || !playlist_name) {
+            return res.status(400).json({
+                status: "error",
+                message: "User ID, Song ID, and Playlist Name are required"
+            });
+        }
+
+        // Check if the playlist already exists for the user
+        const playlistCheckQuery = `
+            SELECT playlist_id 
+            FROM user_playlist 
+            WHERE user_id = $1 
+                AND LOWER(playlist_name) = LOWER($2)`;
+
+        const playlistCheckResult = await db.query(playlistCheckQuery, [user_id, playlist_name]);
+
+        let playlistId;
+
+        if (playlistCheckResult.rows.length === 0) {
+            // If playlist doesn't exist, insert it into the user_playlist table
+            const insertPlaylistQuery = `
+                INSERT INTO user_playlist (user_id, playlist_name) 
+                VALUES ($1, $2) RETURNING playlist_id`;
+            const insertPlaylistResult = await db.query(insertPlaylistQuery, [user_id, playlist_name]);
+            playlistId = insertPlaylistResult.rows[0].playlist_id;
+        } else {
+            playlistId = playlistCheckResult.rows[0].playlist_id;
+        }
+
+        // Check if the song already exists in the playlist
+        const songCheckQuery = `
+            SELECT *
+            FROM playlist
+            WHERE playlist_id = $1
+            AND song_id = $2`;
+
+        const songCheckResult = await db.query(songCheckQuery, [playlistId, song_id]);
+
+        if (songCheckResult.rows.length === 0) {
+            // Insert the song into the playlist table only if it doesn't already exist
+            const insertSongQuery = `
+                INSERT INTO playlist (playlist_id, song_id) 
+                VALUES ($1, $2)`;
+            await db.query(insertSongQuery, [playlistId, song_id]);
+
+            res.status(200).json({
+                status: "success",
+                message: "Song added to playlist successfully"
+            });
+        } else {
+            res.status(400).json({
+                status: "error",
+                message: "Song already exists in the playlist"
+            });
+        }
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
+        });
+    }
+});
+
+router.post("/add/:playlist_name", async (req, res) => {
+    try {
+        const { song_id, user_id } = req.body;
+        const playlist_name = req.params.playlist_name;
+
+        if (!song_id || !user_id) {
+            return res.status(400).json({
+                status: "error",
+                message: "Song ID and User ID are required"
+            });
+        }
+
+        // Check if the playlist already exists for the user
+        const playlistCheckQuery = `
+            SELECT playlist_id 
+            FROM user_playlist 
+            WHERE user_id = $1 
+                AND LOWER(playlist_name) = LOWER($2)`;
+
+        const playlistCheckResult = await db.query(playlistCheckQuery, [user_id, playlist_name]);
+
+        if (playlistCheckResult.rows.length === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Playlist not found"
+            });
+        }
+
+        const playlistId = playlistCheckResult.rows[0].playlist_id;
+
+        // Check if the song already exists in the playlist
+        const songCheckQuery = `
+            SELECT *
+            FROM playlist
+            WHERE playlist_id = $1
+            AND song_id = $2`;
+
+        const songCheckResult = await db.query(songCheckQuery, [playlistId, song_id]);
+
+        if (songCheckResult.rows.length > 0) {
+            return res.status(400).json({
+                status: "error",
+                message: "Song already exists in the playlist"
+            });
+        }
+
+        // Insert the song into the playlist table
+        const insertSongQuery = `
+            INSERT INTO playlist (playlist_id, song_id) 
+            VALUES ($1, $2)`;
+        await db.query(insertSongQuery, [playlistId, song_id]);
+
+        res.status(200).json({
+            status: "success",
+            message: "Song added to playlist successfully"
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
+        });
+    }
+});
+
+
 
 
 

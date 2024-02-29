@@ -29,4 +29,11 @@ genre_name dibo, then oikhan theke genre_name ber korte hobe.
     song. and also should be able to update song info.
 
 
+update log -- 29/02/2024
+
+    user like, unlike korte parbe, review add korte parbe.
+    review theke, the popularity of the song is fixed  (with a slight bug, but thats due 
+                                                        to the poor erd and table design
+                                                        deciscions.)
+
     
