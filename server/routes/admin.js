@@ -156,9 +156,11 @@ router.post("/artist", async (req, res) => {
                 message: "Artist already exists"
             });
         }
-        const query = `INSERT INTO artist (artist_name, alias, small_biography) 
-                       VALUES ($1, $2, $3) RETURNING *;COMMIT;`;
+        const query = `
+        INSERT INTO artist (artist_name, alias, small_biography) 
+        VALUES ($1, $2, $3) RETURNING *;`;
         const result = await db.query(query, [artist_name, alias, small_biography]);
+
         res.status(201).json({
             status: "success",
             message: `Artist '${artist_name}' added successfully`,
@@ -202,7 +204,7 @@ router.post("/album", async (req, res) => {
         }
         const artist_id = artistResult.rows[0].artist_id;
         const albumQuery = `INSERT INTO album (album_name, artist_id, album_year) 
-                            VALUES ($1, $2, $3) RETURNING *;COMMIT;`;
+                            VALUES ($1, $2, $3) RETURNING *`;
         const albumResult = await db.query(albumQuery, [album_name, artist_id, album_year]);
         res.status(201).json({
             status: "success",
@@ -238,7 +240,7 @@ router.post("/genre", async (req, res) => {
             });
         }
         // Insert the genre into the database
-        const query = `INSERT INTO genre (genre_name) VALUES ($1) RETURNING *;COMMIT;`;
+        const query = `INSERT INTO genre (genre_name) VALUES ($1) RETURNING *`;
         const result = await db.query(query, [genre_name]);
         // Send response indicating successful addition
         res.status(201).json({
@@ -353,11 +355,11 @@ router.post("/song", async (req, res) => {
         const songResult = await db.query(songQuery, [song_name]);
         const song_id = songResult.rows[0].song_id;
 
-        const songPlatformQuery = `INSERT INTO song_platform (song_id, platform_id)
+        const songPlatformQuery = `INSERT INTO platfrom_song (song_id, platform_id)
                                     VALUES ($1, $2)`;
         await db.query(songPlatformQuery, [song_id, platform_id]);
 
-        const songRecordingQuery = `INSERT INTO song_recording (song_id, recording_id)
+        const songRecordingQuery = `INSERT INTO recording_song (song_id, recording_id)
                                     VALUES ($1, $2)`;
         await db.query(songRecordingQuery, [song_id, recording_id]);
 
