@@ -35,9 +35,6 @@ router.get("/", async (req, res) => {
     }
 })
 
-
-
-//Get all songs
 router.get("/update", async (req, res) => {
     try {
         const results =
@@ -55,7 +52,7 @@ router.get("/update", async (req, res) => {
     }
 });
 
-// Update Song
+//update song.
 router.put("/song/:name", async (req, res) => {
     try {
         const songName = req.params.name;
@@ -140,8 +137,7 @@ router.delete("/song/:songID", async (req, res) => {
     }
 });
 
-//add artist
-
+//add
 router.post("/artist", async (req, res) => {
     try {
         const { artist_name, alias, small_biography } = req.body;
@@ -176,7 +172,6 @@ router.post("/artist", async (req, res) => {
         });
     }
 });
-
 router.post("/album", async (req, res) => {
     try {
         const { album_name, artist_name, album_year } = req.body;
@@ -222,7 +217,6 @@ router.post("/album", async (req, res) => {
         });
     }
 });
-
 router.post("/genre", async (req, res) => {
     try {
         const { genre_name } = req.body;
@@ -262,7 +256,6 @@ router.post("/genre", async (req, res) => {
 });
 
 //add song
-
 router.post("/song", async (req, res) => {
     try {
         const { song_name, artist_name, album_name, age_rating, genre_name, price,
