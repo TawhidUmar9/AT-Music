@@ -27,3 +27,6 @@ genre_name dibo, then oikhan theke genre_name ber korte hobe.
         update info korar ektu kaj korete hobe.
     song info table added, reviews table added. admin should be able to add song_info when adding 
     song. and also should be able to update song info.
+
+
+    
