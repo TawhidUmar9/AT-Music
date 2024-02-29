@@ -56,13 +56,23 @@ router.get("/update", async (req, res) => {
 router.put("/song/:name", async (req, res) => {
     try {
         const songName = req.params.name;
-        const { artist, album, genre } = req.body;
-        if (!songName || !artist || !album || !genre) {
+        const { song_name, artist, album, genre } = req.body;
+        if (!songName || !artist || !album || !genre || !song_name) {
             return res.status(400).json({
                 status: "error",
                 message: "Song name, artist name, album name, and genre name are required"
             });
         }
+
+        const songQuery = `SELECT * FROM song WHERE LOWER(name) = LOWER($1)`;
+        const songResult = await db.query(songQuery, [songName]);
+        if (songResult.rows.length === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Song with same name exists. Please try another name."
+            });
+        }
+
         const artistQuery = `SELECT artist_id FROM artist WHERE LOWER(artist_name) = LOWER($1)`;
         const artistResult = await db.query(artistQuery, [artist]);
         if (artistResult.rows.length === 0) {
@@ -95,9 +105,9 @@ router.put("/song/:name", async (req, res) => {
 
         const query = `
         UPDATE song 
-        SET artist_id = $1, album_id = $2, genre_id = $3 
-        WHERE name = $4;`;
-        await db.query(query, [artist_id, album_id, genre_id, songName]);
+        SET name = $5, artist_id = $1, album_id = $2, genre_id = $3 
+        WHERE lower(name) = lower($4);`;
+        await db.query(query, [artist_id, album_id, genre_id, songName, song_name]);
 
         res.status(200).json({
             status: "success",
