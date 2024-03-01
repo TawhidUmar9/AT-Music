@@ -6,7 +6,60 @@ const db = require('../db');
 const addSongRoute = require('./addsong');
 router.use('/', addSongRoute);
 
-
+//Get all songs
+router.get("/update", async (req, res) => {
+    try {
+        const results =
+            await db.query("SELECT * FROM SONG S JOIN ARTIST A ON S.artist_id = A.artist_id JOIN ALBUM AL ON S.album_id = AL.album_id JOIN GENRE G ON S.genre_id = G.genre_id");
+        console.log('api/v1/getSong results!');
+        res.status(200).json({
+            status: "success",
+            results: results.rows.length,
+            data: {
+                song: results.rows,
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
+//Get song by name
+router.get("/update/:name", async (req, res) => {
+    try {
+        const results = await db.query("SELECT * FROM SONG S JOIN ARTIST A ON S.artist_id = A.artist_id JOIN ALBUM AL ON S.album_id = AL.album_id JOIN GENRE G ON S.genre_id = G.genre_id WHERE LOWER(S.name) LIKE $1", [% ${ req.params.name.toLowerCase() } %]);
+        console.log('api/v1/getSongByName/:name results!');
+        res.status(200).json({
+            status: "success",
+            data: {
+                song: results.rows,
+            },
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error",
+        });
+    }
+});
+//Get song by artist
+router.get("/update/artist/:name", async (req, res) => {
+    try {
+        const results = await db.query("SELECT * FROM SONG S JOIN ARTIST A ON S.artist_id = A.artist_id JOIN ALBUM AL ON S.album_id = AL.album_id JOIN GENRE G ON S.genre_id = G.genre_id WHERE LOWER(A.ARTIST_NAME) LIKE $1", [% ${ req.params.name.toLowerCase() } %]);
+        res.status(200).json({
+            status: "success",
+            data: {
+                song: results.rows,
+            },
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error",
+        });
+    }
+});
 router.get("/", async (req, res) => {
     try {
         const songCount = await db.query("SELECT COUNT(*) FROM song");
