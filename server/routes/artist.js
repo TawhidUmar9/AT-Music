@@ -40,18 +40,25 @@ router.get("/:artistName", async (req, res) => {
         const results = await db.query(
             `SELECT * 
             FROM ARTIST A
-            JOIN AWARDS AW ON A.ARTIST_ID = AW.ARTIST_ID
-            JOIN AWARDS_LIST AWL ON AW.AWARD_ID = AWL.AWARD_ID
             WHERE LOWER(A.ARTIST_NAME) LIKE $1 OR $1 IS NULL`,
             [artist]
         );
 
-        console.log('api/v1/get searched artist');
+        const artist_id = results.rows[0].artist_id;
+        const artist_awards = await db.query(
+            `SELECT * 
+            FROM AWARDS AW
+            JOIN AWARDS_LIST AWL ON AW.AWARD_ID = AWL.AWARD_ID
+            WHERE AW.ARTIST_ID = $1`,
+            [artist_id]
+        );
+
         res.status(200).json({
             status: "success",
             results: results.rows.length,
             data: {
                 artist: results.rows,
+                awards: artist_awards.rows,
             },
         });
     } catch (err) {

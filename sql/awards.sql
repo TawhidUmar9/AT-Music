@@ -8,8 +8,6 @@ CREATE TABLE IF NOT EXISTS awards_list (
     award_category VARCHAR(50) NOT NULL,
     category_description VARCHAR(255) NOT NULL
 );
-
--- Insert the 10 awards into the table with category descriptions
 INSERT INTO
     awards_list (award_name, award_category, category_description)
 VALUES
