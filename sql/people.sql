@@ -14,25 +14,28 @@ CREATE TABLE IF NOT EXISTS people(
     biography TEXT
 );
 
-CREATE TABLE IF NOT EXISTS composer(
+CREATE TABLE IF NOT EXISTS composer (
     composer_id INTEGER NOT NULL,
     song_id INTEGER NOT NULL,
     FOREIGN KEY (composer_id) REFERENCES people(person_id),
-    FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE CASCADE
+    FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE CASCADE,
+    PRIMARY KEY (composer_id, song_id)
 );
 
-CREATE TABLE IF NOT EXISTS producer(
+CREATE TABLE IF NOT EXISTS producer (
     producer_id INTEGER NOT NULL,
     song_id INTEGER NOT NULL,
     FOREIGN KEY (producer_id) REFERENCES people(person_id),
-    FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE CASCADE
+    FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE CASCADE,
+    PRIMARY KEY (producer_id, song_id)
 );
 
-CREATE TABLE IF NOT EXISTS lyricist(
+CREATE TABLE IF NOT EXISTS lyricist (
     lyricist_id INTEGER NOT NULL,
     song_id INTEGER NOT NULL,
     FOREIGN KEY (lyricist_id) REFERENCES people(person_id),
-    FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE CASCADE
+    FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE CASCADE,
+    PRIMARY KEY (lyricist_id, song_id)
 );
 
 INSERT INTO

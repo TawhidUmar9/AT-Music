@@ -1,4 +1,0 @@
-CREATE TABLE IF NOT EXISTS song_info(
-    song_id INTEGER UNIQUE NOT NULL,
-    song_info TEXT NOT NULL
-)

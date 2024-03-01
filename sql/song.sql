@@ -1,8 +1,8 @@
--- Create the table
 CREATE TABLE IF NOT EXISTS song (
     song_id BIGSERIAL PRIMARY KEY NOT NULL,
     artist_id INTEGER NOT NULL,
-    name VARCHAR NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    -- Specify the maximum length for VARCHAR
     album_id INTEGER NOT NULL,
     song_length INTERVAL,
     age_rating INTEGER,
@@ -12,9 +12,11 @@ CREATE TABLE IF NOT EXISTS song (
     ),
     price DECIMAL,
     genre_id INTEGER,
-    CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
-    CONSTRAINT fk_album FOREIGN KEY (album_id) REFERENCES album (album_id),
-    CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genre (genre_id)
+    CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES artist (artist_id) ON DELETE CASCADE,
+    -- Specify the referenced table
+    CONSTRAINT fk_album FOREIGN KEY (album_id) REFERENCES album (album_id) ON DELETE CASCADE,
+    -- Specify the referenced table
+    CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genre (genre_id) ON DELETE CASCADE -- Specify the referenced table
 );
 
 -- Insert data for the specified songs

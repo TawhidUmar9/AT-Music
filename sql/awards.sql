@@ -63,8 +63,8 @@ VALUES
     );
 
 CREATE TABLE IF NOT EXISTS awards(
-    award_id INTEGER REFERENCES awards_list(award_id) NOT NULL,
-    artist_id INTEGER REFERENCES artist(artist_id) NOT NULL
+    award_id INTEGER REFERENCES awards_list(award_id) ON DELETE CASCADE  NOT NULL,
+    artist_id INTEGER REFERENCES artist(artist_id) ON DELETE CASCADE NOT NULL
 );
 
 INSERT INTO

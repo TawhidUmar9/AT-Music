@@ -40,7 +40,7 @@ VALUES
 
 -- Create the platform_song table
 CREATE TABLE IF NOT EXISTS platform_song (
-    platform_id INTEGER REFERENCES platform(platform_id) NOT NULL,
+    platform_id INTEGER REFERENCES platform(platform_id) ON DELETE CASCADE NOT NULL,
     song_id INTEGER NOT NULL
 );
 
@@ -55,7 +55,7 @@ FROM
 
 -- Create the recording_song table
 CREATE TABLE IF NOT EXISTS recording_song (
-    rectype_id INTEGER REFERENCES rec_type(rectype_id) NOT NULL,
+    rectype_id INTEGER REFERENCES rec_type(rectype_id) ON DELETE CASCADE NOT NULL,
     song_id INTEGER NOT NULL
 );
 
