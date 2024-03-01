@@ -40,6 +40,8 @@ router.get("/:artistName", async (req, res) => {
         const results = await db.query(
             `SELECT * 
             FROM ARTIST A
+            JOIN AWARDS AW ON A.ARTIST_ID = AW.ARTIST_ID
+            JOIN AWARDS_LIST AWL ON AW.AWARD_ID = AWL.AWARD_ID
             WHERE LOWER(A.ARTIST_NAME) LIKE $1 OR $1 IS NULL`,
             [artist]
         );
