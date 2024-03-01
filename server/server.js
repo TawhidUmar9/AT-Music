@@ -14,8 +14,6 @@ const userRoute = require('./routes/user');
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 
-
-
 app.use('/api/v1/song', songRoute);
 app.use('/api/v1/artist', artistRoute);
 app.use('/api/v1/admin', adminRoute);

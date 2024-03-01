@@ -2,11 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require('../db');
 
-
-// ----> sorts the song on the basis of the popluarity
-
-//http://localhost:4001/api/v1/song?search=B&sortBy=popularity&sortOrder=asc&artist=m
-//this is a demo url which hits this get method.
+const reviewRoute = require('./review');
+router.use('/', reviewRoute);
 
 router.get("/", async (req, res) => {
     try {
@@ -55,14 +52,15 @@ router.get("/", async (req, res) => {
     }
 });
 
-
 router.get("/:song_id", async (req, res) => {
     try {
         const song_id = req.params.song_id;
         const query = `SELECT 
         S.song_id AS song_id,
         S.name AS song_name,
+        S.song_length AS song_length,
         S.album_id, S.age_rating, S.popularity, S.price, S.genre_id, S.artist_id,
+        A.artist_name AS artist_name,
         AL.album_id AS album_id,
         AL.album_name AS album_name,
         AL.album_year,G.genre_name,

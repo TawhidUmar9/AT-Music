@@ -4,6 +4,9 @@ const db = require('../db');
 const { route } = require("./songs");
 
 
+const reviewRoute = require('./review');
+router.use('/', reviewRoute);
+
 //these routes handle the user like funcitonality
 router.post("/song", async (req, res) => {
     try {
@@ -167,7 +170,7 @@ router.post("/genre", async (req, res) => {
     }
 });
 
-
+//unliking the entities
 router.delete("/song", async (req, res) => {
     try {
         const { user_id, song_id } = req.body;
@@ -269,57 +272,6 @@ router.delete("/genre", async (req, res) => {
         });
     }
 })
-
-router.post("/review", async (req, res) => {
-    try {
-        const { user_id, song_id, review_text, rating } = req.body;
-        if (!user_id || !song_id || !rating) {
-            return res.status(400).json({
-                status: "error",
-                message: "User ID, Song ID, Review Text, and Rating are required"
-            });
-        }
-        if (rating > 10) {
-            return res.status(400).json({
-                status: "error",
-                message: "Rating cannot be greater than 10"
-            });
-        }
-
-        // Check if the review already exists for the user and song
-        const checkQuery = `SELECT * FROM reviews WHERE user_id = $1 AND song_id = $2`;
-        const checkResult = await db.query(checkQuery, [user_id, song_id]);
-
-        if (checkResult.rows.length > 0) {
-            // If the review already exists, update it
-            const updateQuery = `
-                UPDATE reviews
-                SET review_text = $1, rating = $2, review_date = $3
-                WHERE user_id = $4 AND song_id = $5
-            `;
-            await db.query(updateQuery, [review_text, rating, new Date(), user_id, song_id]);
-        } else {
-            // If the review doesn't exist, insert a new one
-            const insertQuery = `
-                INSERT INTO reviews (user_id, song_id, review_text, rating, review_date)
-                VALUES ($1, $2, $3, $4, $5)
-            `;
-            await db.query(insertQuery, [user_id, song_id, review_text, rating, new Date()]);
-        }
-
-        res.status(200).json({
-            status: "success",
-            message: `Review added successfully`
-        });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            status: "error",
-            message: "Internal Server Error"
-        });
-    }
-});
 
 //creating new playlist
 router.post("/create", async (req, res) => {
@@ -437,7 +389,6 @@ router.post("/add/:song_id", async (req, res) => {
         });
     }
 });
-
 //adds song to existing playlist
 router.post("/add/playlist/:playlist_name", async (req, res) => {
     try {
@@ -503,7 +454,6 @@ router.post("/add/playlist/:playlist_name", async (req, res) => {
         });
     }
 });
-
 //get liked entities
 router.get("/like", async (req, res) => {
     try {
