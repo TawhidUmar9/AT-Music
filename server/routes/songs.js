@@ -32,13 +32,11 @@ router.get("/", async (req, res) => {
             query += ` AND LOWER(G.GENRE_NAME) LIKE LOWER($${queryParams.length + 1})`;
             queryParams.push(`%${genre.toLowerCase()}%`);
         }
-
-        let orderByClause = '';
         if (sortBy) {
             query += ` ORDER BY S.${sortBy.toUpperCase()}`;
         }
         if (sortOrder) {
-            query += ` ORDER BY ${orderByClause.toUpperCase()}`;
+            query += `  ${sortOrder.toUpperCase()}`;
         }
 
 
