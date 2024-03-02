@@ -7,11 +7,15 @@ const reviewRoute = require('./review');
 const likeRouter = require('./like');
 const unlikeRouter = require('./unlike');
 const playlistRoute = require('./playlist');
+const newsRoute = require('./user_news_handler');
+
 
 router.use('/', reviewRoute);
 router.use('/', likeRouter);
 router.use('/', unlikeRouter);
 router.use('/', playlistRoute);
+router.use('/', newsRoute);
+
 
 //get liked entities
 router.get("/like", async (req, res) => {
