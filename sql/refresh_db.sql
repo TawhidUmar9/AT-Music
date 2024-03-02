@@ -13,3 +13,4 @@
 \i 'E:/AT Music/sql/reviews.sql';
 \i 'E:/AT Music/sql/song_synopsis.sql';
 \i 'E:/AT Music/sql/news.sql';
+\i 'E:/AT Music/sql/friends.sql';
