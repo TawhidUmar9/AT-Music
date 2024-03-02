@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS artist_news;
+
+DROP TABLE IF EXISTS song_news;
+
+CREATE TABLE IF NOT EXISTS artist_news (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    artist_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (artist_id) REFERENCES artist(artist_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS song_news (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    song_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE CASCADE
+);
