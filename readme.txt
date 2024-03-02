@@ -10,4 +10,7 @@
         like price check
         suggested friend triggers.(??)
         add news korar khetre same title and same name hoite parbe na(??)
-        same year e same awards paite pare na(??)    
+        same year e same awards paite pare na(??)
+        
+cart er total price ta calculate kori ni ekhono. oita pore implement korbo
+either function use kore or response e extra kore pathay dibo. Don't cry!!
