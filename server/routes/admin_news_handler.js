@@ -5,17 +5,17 @@ const db = require('../db');
 
 //route to add the news
 
-router.post("/addnews", async (req, res) =>{
-    try{
-        
-        const {flag, name, news_title, news_content } = req.body;
+router.post("/news", async (req, res) => {
+    try {
+
+        const { flag, name, news_title, news_content } = req.body;
         if (!flag || !name || !news_title || !news_content) {
             return res.status(400).json({
                 status: "error",
                 message: "Flag, name, news title, and news content are required"
             });
         }
-        if(flag === 'artist'){
+        if (flag === 'artist') {
             const checkQuery = `SELECT * FROM artist WHERE LOWER(artist_name) = LOWER($1)`;
             const checkResult = await db.query(checkQuery, [name]);
             if (checkResult.rows.length === 0) {
@@ -33,8 +33,8 @@ router.post("/addnews", async (req, res) =>{
                 status: "success",
                 message: "News added successfully"
             });
-            
-        }else if(flag === 'song'){
+
+        } else if (flag === 'song') {
             const checkQuery = `SELECT * FROM song WHERE LOWER(name) = LOWER($1)`;
             const checkResult = await db.query(checkQuery, [name]);
             if (checkResult.rows.length === 0) {
@@ -54,7 +54,7 @@ router.post("/addnews", async (req, res) =>{
             });
         }
 
-    }catch(err){
+    } catch (err) {
         console.error(err);
         res.status(500).json({
             status: "error",

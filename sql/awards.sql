@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS awards_list (
     award_category VARCHAR(50) NOT NULL,
     category_description VARCHAR(255) NOT NULL
 );
+
 INSERT INTO
     awards_list (award_name, award_category, category_description)
 VALUES
@@ -63,8 +64,9 @@ VALUES
     );
 
 CREATE TABLE IF NOT EXISTS awards(
-    award_id INTEGER REFERENCES awards_list(award_id) ON DELETE CASCADE  NOT NULL,
-    artist_id INTEGER REFERENCES artist(artist_id) ON DELETE CASCADE NOT NULL
+    award_id INTEGER REFERENCES awards_list(award_id) ON DELETE CASCADE NOT NULL,
+    artist_id INTEGER REFERENCES artist(artist_id) ON DELETE CASCADE NOT NULL,
+    awards_year INTEGER
 );
 
 INSERT INTO
