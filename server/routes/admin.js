@@ -9,7 +9,7 @@ const awardsRoute = require('./admin_award_handler');
 
 router.use('/', addSongRoute);
 router.use('/', newsRoute);
-router.use('/',awardsRoute);
+router.use('/', awardsRoute);
 
 // Route to get counts of different entities
 router.get("/counts", async (req, res) => {

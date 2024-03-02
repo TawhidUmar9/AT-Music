@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require('../db');
-const { route } = require("./admin_award_handler");
 
 
 //route to get all awards
