@@ -17,3 +17,8 @@ either function use kore or response e extra kore pathay dibo. Don't cry!!
 
 
 ----->friend feature e onek advanced sql apply kora hoise.
+
+
+--->
+    artist home e, user_id is sent via query.
+    

@@ -25,6 +25,7 @@ router.get("/:artistName", async (req, res) => {
     try {
         // Extract artistName from request parameters
         const artistName = req.params.artistName;
+        const { user_id } = req.query;
 
         // If artistName is not provided, return a 400 error
         if (!artistName) {
@@ -43,6 +44,13 @@ router.get("/:artistName", async (req, res) => {
             WHERE LOWER(A.ARTIST_NAME) LIKE $1 OR $1 IS NULL`,
             [artist]
         );
+        const artist_liked_query = `
+            SELECT * from liked_artist 
+            where user_id = $1 and artist_id = $2`;
+        const liked_artist = 
+            await db.query(artist_liked_query, [user_id, results.rows[0].artist_id]);
+        
+        
 
         const artist_id = results.rows[0].artist_id;
         const artist_awards = await db.query(
@@ -59,6 +67,7 @@ router.get("/:artistName", async (req, res) => {
             data: {
                 artist: results.rows,
                 awards: artist_awards.rows,
+                liked: liked_artist.rows.length > 0
             },
         });
     } catch (err) {
