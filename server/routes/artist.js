@@ -47,10 +47,10 @@ router.get("/:artistName", async (req, res) => {
         const artist_liked_query = `
             SELECT * from liked_artist 
             where user_id = $1 and artist_id = $2`;
-        const liked_artist = 
+        const liked_artist =
             await db.query(artist_liked_query, [user_id, results.rows[0].artist_id]);
-        
-        
+
+
 
         const artist_id = results.rows[0].artist_id;
         const artist_awards = await db.query(
