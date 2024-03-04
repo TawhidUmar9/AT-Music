@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const db = require('../db');
 
-router.get("/", async (req, res) => {
+router.get("/:song_id", async (req, res) => {
     try {
-        const { user_id, song_id } = req.query;
+        const{song_id} = req.params;
+        const { user_id } = req.query;
         console.log(user_id);
 
         const query = `SELECT 
