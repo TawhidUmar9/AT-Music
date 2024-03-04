@@ -5,7 +5,7 @@ const db = require('../db');
 //get suggestions
 router.get("/suggestions", async (req, res) => {
     try {
-        const { user_id } = req.body;
+        const { user_id } = req.query;
 
         // Validate user_id
         if (!user_id) {

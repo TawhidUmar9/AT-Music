@@ -34,7 +34,7 @@ router.post("/cart", async (req, res) => {
 //get song from cart
 router.get("/cart", async (req, res) => {
     try {
-        const { user_id } = req.body;
+        const { user_id } = req.query;
         if (!user_id) {
             return res.status(400).json({
                 status: "error",
@@ -63,7 +63,7 @@ router.get("/cart", async (req, res) => {
 //get purchased songs
 router.get("/purchase", async (req, res) => {
     try {
-        const { user_id } = req.body;
+        const { user_id } = req.query;
         if (!user_id) {
             return res.status(400).json({
                 status: "error",

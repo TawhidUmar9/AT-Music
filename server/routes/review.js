@@ -53,9 +53,9 @@ router.post("/review", async (req, res) => {
     }
 });
 
-router.get("/review/:song_id", async (req, res) => {
+router.get("/review", async (req, res) => {
     try {
-        const song_id = req.params.song_id;
+        const {song_id} = req.query;
         const query = `
             SELECT 
                 R.review_id, R.user_id, 

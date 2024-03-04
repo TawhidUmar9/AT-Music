@@ -9,7 +9,7 @@ const db = require('../db');
 router.get("/news", async (req, res) => {
     try {
 
-        const { user_id } = req.body;
+        const { user_id } = req.query;
         if (!user_id) {
             return res.status(400).json({
                 status: "error",
