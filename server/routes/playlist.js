@@ -49,17 +49,15 @@ router.post("/create", async (req, res) => {
     }
 });
 //creating new playlist and adding the song.
-router.post("/add/:song_id", async (req, res) => {
+router.post("/add/", async (req, res) => {
     try {
-        song_id = req.params.song_id;
-        const { user_id, playlist_name } = req.body;
+        const { user_id, playlist_name, song_id } = req.body;
         if (!user_id || !playlist_name) {
             return res.status(400).json({
                 status: "error",
                 message: "User ID, Song ID, and Playlist Name are required"
             });
         }
-
         // Check if the playlist already exists for the user
         const playlistCheckQuery = `
             SELECT playlist_id 
@@ -118,10 +116,9 @@ router.post("/add/:song_id", async (req, res) => {
     }
 });
 //adds song to existing playlist
-router.post("/add/playlist/:playlist_name", async (req, res) => {
+router.post("/add/playlist/", async (req, res) => {
     try {
-        const { song_id } = req.body;
-        const playlist_name = req.params.playlist_name;
+        const { song_id, playlist_name } = req.body;;
 
         if (!song_id) {
             return res.status(400).json({
@@ -182,5 +179,53 @@ router.post("/add/playlist/:playlist_name", async (req, res) => {
         });
     }
 });
+
+//get all playlist of user.
+router.get("/playlist", async (req, res) => {
+    try {
+        const { user_id } = req.query
+        const playlistQuery = `
+            SELECT * FROM user_playlist
+            WHERE user_id = ${user_id}`;
+        const playlistResult = await db.query(playlistQuery);
+        res.status(200).json({
+            status: "success",
+            data: playlistResult.rows
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
+        });
+    }
+})
+
+//get all songs of playlist
+router.get("/playlist/songs", async (req, res) => {
+    try {
+        const { playlist_id } = req.query
+        const playlistSongQuery = `
+            select * from playlist p
+            left join song s on p.song_id = s.song_id
+            left join artist a on s.artist_id = a.artist_id
+            left join album al on s.album_id = al.album_id
+            left join genre g on s.genre_id = g.genre_id
+            where p.playlist_id = ${playlist_id}`;
+        const playlistSongResult = await db.query(playlistSongQuery);
+        res.status(200).json({
+            status: "success",
+            data: playlistSongResult.rows
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
+        });
+    }
+
+})
+
 
 module.exports = router;

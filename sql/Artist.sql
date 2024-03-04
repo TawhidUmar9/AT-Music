@@ -2,6 +2,8 @@ CREATE TABLE artist (
     artist_id BIGSERIAL NOT NULL PRIMARY KEY,
     artist_name VARCHAR(100),
     alias VARCHAR(100),
+    artist_intro_video VARCHAR(255),
+    artist_image VARCHAR(255),
     small_biography TEXT
 );
 
@@ -11,390 +13,484 @@ VALUES
     (
         'Aretha Franklin',
         'Queen of Soul',
-        'Legendary singer known for her powerful voice.'
+        'Legendary singer known for her powerful voice.',
+        'https://youtu.be/EtTn5aLXZZg',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Aretha_Franklin_1968.jpg/330px-Aretha_Franklin_1968.jpg'
     ),
     (
         'Chuck Berry',
         'Father of Rock and Roll',
-        'Pioneer of rock music and iconic guitarist.'
+        'Pioneer of rock music and iconic guitarist.',
+        'https://youtu.be/v124f0i0Xh4',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Chuck_Berry_1957.jpg/330px-Chuck_Berry_1957.jpg'
     ),
     (
         'Michael Jackson',
         'King of Pop',
-        'Global pop sensation and innovative entertainer.'
+        'Global pop sensation and innovative entertainer.',
+        'https://youtu.be/WEdZOzZG5As',
+        'https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg'
     ),
     (
         'Bill Haley & His Comets',
         'Rock and Roll Trailblazers',
-        'Early rock and roll pioneers.'
+        'Early rock and roll pioneers.',
+        'https://youtu.be/DWkuM2IPbZQ',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Bill_Haley_and_the_Comets1956.jpg/330px-Bill_Haley_and_the_Comets1956.jpg'
     ),
     (
         'Led Zeppelin',
         'Legendary Rock Band',
-        'Known for their iconic rock anthems.'
+        'Known for their iconic rock anthems.',
+        'https://youtu.be/uONOELwhTKc',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/LedZeppelinmontage.jpg/330px-LedZeppelinmontage.jpg'
     ),
     (
         'The Kingsmen',
         'Garage Rock Pioneers',
-        'Famous for the hit song  Louie Louie .'
+        'Famous for the hit song  Louie Louie .',
+        'https://youtu.be/GHgNq9dMViQ',
+        'https://upload.wikimedia.org/wikipedia/en/4/4f/Kingsmen.jpg'
     ),
     (
         'Marvin Gaye',
         'Prince of Soul',
-        'Smooth and soulful vocalist with social consciousness.'
+        'Smooth and soulful vocalist with social consciousness.',
+        'https://youtu.be/hYVCwXkdht4',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Marvin_Gaye_%281973_publicity_photo%29.jpg/330px-Marvin_Gaye_%281973_publicity_photo%29.jpg'
     ),
     (
         'The Rolling Stones',
         'Rock Legends',
-        'Long-standing rock band with numerous hits.'
+        'Long-standing rock band with numerous hits.',
+        'https://youtu.be/Xb3fZmkzy84',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/The_Rolling_Stones_Summerfest_in_Milwaukee_-_2015.jpg/415px-The_Rolling_Stones_Summerfest_in_Milwaukee_-_2015.jpg'
     ),
     (
         'Elvis Presley',
         'King of Rock and Roll',
-        'Iconic figure in the history of rock music.'
+        'Iconic figure in the history of rock music.',
+        'https://youtu.be/xqBdTn3_0Rw',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elvis_Presley_promoting_Jailhouse_Rock.jpg/330px-Elvis_Presley_promoting_Jailhouse_Rock.jpg'
     ),
     (
         'Bob Dylan',
         'Voice of a Generation',
-        'Nobel Prize-winning singer-songwriter.'
+        'Nobel Prize-winning singer-songwriter.',
+        'https://youtu.be/OeP4FFr88SQ',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bob_Dylan_-_Azkena_Rock_Festival_2010_2.jpg/330px-Bob_Dylan_-_Azkena_Rock_Festival_2010_2.jpg'
     ),
     (
         'The Beatles',
         'Fab Four',
-        'Revolutionized music and pop culture.'
+        'Revolutionized music and pop culture.',
+        'https://youtu.be/1aU8Of01izY',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/The_Beatles_members_at_New_York_City_in_1964.jpg/330px-The_Beatles_members_at_New_York_City_in_1964.jpg'
     ),
     (
         'The Beach Boys',
         'Harmony Masters',
-        'Influential for their vocal harmonies and beach-themed music.'
+        'Influential for their vocal harmonies and beach-themed music.',
+        'https://youtu.be/5a4YupnT1sM',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/The_Beach_Boys%2C_May_29%2C_2012.jpg/411px-The_Beach_Boys%2C_May_29%2C_2012.jpg'
     ),
     (
         'Little Richard',
         'Architect of Rock and Roll',
-        'Energetic and flamboyant rock and roll pioneer.'
+        'Energetic and flamboyant rock and roll pioneer.',
+        'https://youtu.be/R_KQd9Oe1p8',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Little_Richard_in_2007_%28cropped%29.jpg/330px-Little_Richard_in_2007_%28cropped%29.jpg'
     ),
     (
         'Ray Charles',
         'Genius of Soul',
-        'Blind pianist and soulful singer.'
+        'Blind pianist and soulful singer.',
+        'https://youtu.be/SHRuA3fUOYY',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Ray_Charles_classic_piano_pose.jpg/330px-Ray_Charles_classic_piano_pose.jpg'
     ),
     (
         'Eagles',
         'Rock Superstars',
-        'Famous for their harmonious sound and hit songs.'
+        'Famous for their harmonious sound and hit songs.',
+        'https://youtu.be/P1y2uynnONs?t=8',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Eagles.jpg/450px-Eagles.jpg'
     ),
     (
         'The Righteous Brothers',
         'Blue-Eyed Soul',
-        'Known for the emotional ballad  Youve Lost That Lovin Feelin'
+        'Known for the emotional ballad  Youve Lost That Lovin Feelin',
+        'https://youtu.be/P1y2uynnONs?t=8',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/TheRighteousBrothersperformingKBF.jpg/450px-TheRighteousBrothersperformingKBF.jpg'
     ),
     (
         'The Temptations',
         'Motown Legends',
-        'Smooth vocal group with soulful hits.'
+        'Smooth vocal group with soulful hits.',
+        'https://youtu.be/zdOyO4f4w0w?list=PLRl7dddF_ZTHqQKraj2qdC9Zqi3phIDWK'
     ),
     (
         'John Lennon',
         'Imagine',
-        'Co-founder of The Beatles and influential solo artist.'
+        'Co-founder of The Beatles and influential solo artist.',
+        'https://youtu.be/E-96Ry6oidU?list=PLRl7dddF_ZTHqQKraj2qdC9Zqi3phIDWK'
     ),
     (
         'Nirvana',
         'Grunge Pioneers',
-        'Led by Kurt Cobain, influential in the grunge movement.'
+        'Led by Kurt Cobain, influential in the grunge movement.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Bruce Springsteen',
         'The Boss',
-        'Energetic rock performer and songwriter.'
+        'Energetic rock performer and songwriter.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Doors',
         'Psychedelic Rock',
-        'Known for their poetic lyrics and unique sound.'
+        'Known for their poetic lyrics and unique sound.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Stevie Wonder',
         'Musical Prodigy',
-        'Blind since birth, multi-instrumentalist and soulful singer.'
+        'Blind since birth, multi-instrumentalist and soulful singer.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Derek and the Dominos (Eric Clapton)',
         'Blues-Rock Supergroup',
-        'Led by Eric Clapton, famous for Layla .'
+        'Led by Eric Clapton, famous for Layla .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Queen',
         'Champions',
-        'Legendary rock band with diverse musical styles.'
+        'Legendary rock band with diverse musical styles.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Eddie Cochran',
         'Rockabilly Star',
-        'Influential rock and roll and rockabilly artist.'
+        'Influential rock and roll and rockabilly artist.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Kinks',
         'British Invasion',
-        'Known for their distinctive sound and witty lyrics.'
+        'Known for their distinctive sound and witty lyrics.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Simon & Garfunkel',
         'Folk Rock Duo',
-        'Harmonious duo with poetic and introspective songs.'
+        'Harmonious duo with poetic and introspective songs.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Al Green',
         'The Reverend',
-        'Smooth soul singer and ordained pastor.'
+        'Smooth soul singer and ordained pastor.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Jimi Hendrix',
         'Guitar Virtuoso',
-        'Innovative guitarist and rock icon.'
+        'Innovative guitarist and rock icon.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Jerry Lee Lewis',
         'The Killer',
-        'Energetic and flamboyant rock and roll pioneer.'
+        'Energetic and flamboyant rock and roll pioneer.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Buddy Holly',
         'Rockabilly Legend',
-        'Influential figure in the early days of rock and roll.'
+        'Influential figure in the early days of rock and roll.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Police',
         'New Wave Icons',
-        'Sting-led band with a blend of rock and new wave.'
+        'Sting-led band with a blend of rock and new wave.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'OutKast',
         'Hip-Hop Duo',
-        'Andre 3000 and Big Boi, known for their genre-blending music.'
+        'Andre 3000 and Big Boi, known for their genre-blending music.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Bo Diddley',
         'Bo Diddley Beat',
-        'Innovative guitarist and rhythm pioneer.'
+        'Innovative guitarist and rhythm pioneer.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'James Brown',
         'Godfather of Soul',
-        'The hardest-working man in show business.'
+        'The hardest-working man in show business.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Prince',
         'Purple One',
-        'Musical genius and innovative artist.'
+        'Musical genius and innovative artist.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Who',
         'Rock Legends',
-        'Known for their energetic performances and concept albums.'
+        'Known for their energetic performances and concept albums.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'R.E.M.',
         'Alternative Pioneers',
-        'Influential in the alternative rock genre.'
+        'Influential in the alternative rock genre.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Cream',
         'Supergroup',
-        'Eric Clapton, Ginger Baker, and Jack Bruce in a rock supergroup.'
+        'Eric Clapton, Ginger Baker, and Jack Bruce in a rock supergroup.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'U2',
         'Irish Rock Icons',
-        'Led by Bono, known for their anthemic rock songs.'
+        'Led by Bono, known for their anthemic rock songs.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Sam Cooke',
         'Soulful Crooner',
-        'One of the greatest soul and R&B singers.'
+        'One of the greatest soul and R&B singers.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Grandmaster Flash and the Furious Five',
         'Hip-Hop Pioneers',
-        'Influential in the early days of hip-hop.'
+        'Influential in the early days of hip-hop.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Wilson Pickett',
         'Wicked Pickett',
-        'Soulful singer known for his powerful voice.'
+        'Soulful singer known for his powerful voice.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Byrds',
         'Folk Rock Pioneers',
-        'Known for blending folk and rock elements.'
+        'Known for blending folk and rock elements.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Creedence Clearwater Revival',
         'Swamp Rock',
-        'Led by John Fogerty, known for their swamp rock sound.'
+        'Led by John Fogerty, known for their swamp rock sound.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Big Joe Turner',
         'Boss of the Blues',
-        'Blues and R&B singer with a powerful voice.'
+        'Blues and R&B singer with a powerful voice.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Aerosmith',
         'Bad Boys from Boston',
-        'Hard rock band with a string of hits.'
+        'Hard rock band with a string of hits.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Rod Stewart',
         'Rod the Mod',
-        'Versatile rocker with a raspy voice.'
+        'Versatile rocker with a raspy voice.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Don McLean',
         'American Pie',
-        'Folk singer-songwriter known for the iconic song.'
+        'Folk singer-songwriter known for the iconic song.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Otis Redding',
         'King of Soul',
-        'Influential soul singer with a raw emotive style.'
+        'Influential soul singer with a raw emotive style.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Bee Gees',
         'Disco Legends',
-        'Famous for their contributions to the disco era.'
+        'Famous for their contributions to the disco era.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Lynyrd Skynyrd',
         'Southern Rock Pioneers',
-        'Known for  Free Bird  and  Sweet Home Alabama .'
+        'Known for  Free Bird  and  Sweet Home Alabama .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Dr. Dre',
         'Hip-Hop Mogul',
-        'Legendary rapper, producer,'
+        'Legendary rapper, producer,',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Percy Sledge',
         'Soulful Balladeer',
-        'Known for the classic  When a Man Loves a Woman .'
+        'Known for the classic  When a Man Loves a Woman .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Ben E. King',
         'Stand By Me',
-        'R&B and soul singer, famous for the timeless hit  Stand By Me .'
+        'R&B and soul singer, famous for the timeless hit  Stand By Me .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Gloria Gaynor',
         'Queen of Disco',
-        'Iconic disco singer, best known for  I Will Survive .'
+        'Iconic disco singer, best known for  I Will Survive .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Rick James',
         'Super Freak',
-        'Funky and flamboyant artist, famous for  Super Freak .'
+        'Funky and flamboyant artist, famous for  Super Freak .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Procol Harum',
         'Progressive Rock',
-        'Known for the classic  A Whiter Shade of Pale .'
+        'Known for the classic  A Whiter Shade of Pale .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Ronettes',
         'Girl Group',
-        'Legendary girl group, famous for  Be My Baby .'
+        'Legendary girl group, famous for  Be My Baby .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Fleetwood Mac',
         'Rock Legends',
-        'British-American rock band with a string of hits.'
+        'British-American rock band with a string of hits.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Animals',
         'British Invasion',
-        'Rock band known for hits like  House of the Rising Sun .'
+        'Rock band known for hits like  House of the Rising Sun .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Supremes',
         'Motown Royalty',
-        'One of Motowns most successful acts with numerous chart-topping hits.'
+        'One of Motowns most successful acts with numerous chart-topping hits.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Sugarhill Gang',
         'Hip-Hop Pioneers',
-        'Early hip-hop group known for the groundbreaking  Rappers Delight .'
+        'Early hip-hop group known for the groundbreaking  Rappers Delight .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Jackson 5',
         'Motown Sensation',
-        'Childhood group of Michael Jackson, known for hits like  I Want You Back .'
+        'Childhood group of Michael Jackson, known for hits like  I Want You Back .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Joan Jett & The Blackhearts',
         'Rock Goddess',
-        'Punk rock and rock artist, famous for  I Love Rock N Roll .'
+        'Punk rock and rock artist, famous for  I Love Rock N Roll .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Human League',
         'Synth-Pop Pioneers',
-        'Electropop band known for hits like  Dont You Want Me .'
+        'Electropop band known for hits like  Dont You Want Me .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Pearl Jam',
         'Grunge Icons',
-        'Influential grunge band with hits like  Jeremy  and  Alive .'
+        'Influential grunge band with hits like  Jeremy  and  Alive .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Madonna',
         'Queen of Pop',
-        'Iconic pop singer, actress, and cultural influencer.'
+        'Iconic pop singer, actress, and cultural influencer.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Guns N  Roses',
         'Rock Icons',
-        'Hard rock band with hits like  Sweet Child O Mine  and  November Rain .'
+        'Hard rock band with hits like  Sweet Child O Mine  and  November Rain .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Red Hot Chili Peppers',
         'Funky Rockers',
-        'Alternative rock band with a fusion of funk and rock elements.'
+        'Alternative rock band with a fusion of funk and rock elements.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Elton John',
         'Rocket Man',
-        'Legendary singer-songwriter and pianist with a vast catalog of hits.'
+        'Legendary singer-songwriter and pianist with a vast catalog of hits.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'ABBA',
         'Swedish Pop Sensation',
-        'One of the most successful pop groups in history, known for  Dancing Queen .'
+        'One of the most successful pop groups in history, known for  Dancing Queen .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Journey',
         'Arena Rock Legends',
-        'Rock band with anthemic hits like  Dont Stop Believin.'
+        'Rock band with anthemic hits like  Dont Stop Believin.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Sam & Dave',
         'Soul Duo',
-        'Soulful duo known for hits like  Soul Man  and  Hold On, Im Comin .'
+        'Soulful duo known for hits like  Soul Man  and  Hold On, Im Comin .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'AC/DC',
         'Rock or Bust',
-        'Legendary rock band known for their electrifying performances.'
+        'Legendary rock band known for their electrifying performances.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Everly Brothers',
         'Harmony Kings',
-        'Influential duo known for their close harmonies and rockabilly sound.'
+        'Influential duo known for their close harmonies and rockabilly sound.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'The Penguins',
         'Doo-Wop Legends',
-        'Doo-wop group famous for the classic  Earth Angel .'
+        'Doo-wop group famous for the classic  Earth Angel .',
+        'https://youtu.be/P1y2uynnONs?t=8'
     ),
     (
         'Patsy Cline',
         'Queen of Country',
-        'Country music icon known for her timeless songs and emotional performances.'
+        'Country music icon known for her timeless songs and emotional performances.',
+        'https://youtu.be/P1y2uynnONs?t=8'
     );
