@@ -11,7 +11,7 @@ const newsRoute = require('./user_news_handler');
 const purchaseRoute = require('./purchase');
 const friendRoute = require('./friend_handler');
 const profileRoute = require('./profile');
-
+const profileUpdateRoute = require('./user_update_handler');
 
 router.use('/', reviewRoute);
 router.use('/', likeRouter);
@@ -20,7 +20,8 @@ router.use('/', playlistRoute);
 router.use('/', newsRoute);
 router.use('/', purchaseRoute);
 router.use('/', friendRoute);
-router.use('/', profileRoute)
+router.use('/', profileRoute);
+router.use('/', profileUpdateRoute);
 
 
 //get liked entities

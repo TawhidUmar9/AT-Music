@@ -273,3 +273,19 @@ CREATE TRIGGER update_song_popularity_delete_trigger
 AFTER DELETE ON reviews
 FOR EACH ROW
 EXECUTE FUNCTION update_song_popularity_delete();
+
+-- Update last_updated column on user update
+CREATE OR REPLACE FUNCTION update_last_updated()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    NEW.last_updated = NOW(); -- Set last_updated to the current timestamp
+    RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER update_user_last_updated
+BEFORE UPDATE ON user_db
+FOR EACH ROW
+EXECUTE FUNCTION update_last_updated();
