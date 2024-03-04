@@ -45,6 +45,7 @@ router.get("/cart", async (req, res) => {
         SELECT * 
         FROM cart C
         JOIN SONG S ON S.SONG_ID = C.SONG_ID
+        JOIN ALBUM A ON A.ALBUM_ID = S.ALBUM_ID
         WHERE user_id = $1`;
         const cart = await db.query(query, [user_id]);
 
@@ -74,6 +75,7 @@ router.get("/purchase", async (req, res) => {
         SELECT * 
         FROM purchase_history P
         JOIN SONG S ON S.SONG_ID = P.SONG_ID
+        JOIN ALBUM A ON A.ALBUM_ID = S.ALBUM_ID
         WHERE user_id = $1`;
         const purchase = await db.query(query, [user_id]);
 
