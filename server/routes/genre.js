@@ -17,9 +17,7 @@ router.get("/", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
 //get genre details and song details by genre name and whether is liked.
-
 router.get("/:genreName", async (req, res) => {
     try {
         const genreName = req.params.genreName;
@@ -30,6 +28,8 @@ router.get("/:genreName", async (req, res) => {
 
         const songsInGenreQuery = `SELECT * FROM genre
             left join song on genre.genre_id = song.genre_id
+            left join artist on song.artist_id = artist.artist_id
+            left join album on album.album_id = song.album_id
             WHERE lower(genre_name) = lower($1)`;
         const songInGenreResult = await db.query(songsInGenreQuery, [genreName]);
 

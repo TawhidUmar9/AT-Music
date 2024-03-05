@@ -10,81 +10,81 @@ INSERT INTO
 VALUES
     (
         'Rock',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.YNhN4rU9JwDuvh__f8TnTQHaHa%26pid%3DApi&f=1&ipt=fbdd008f906d2fb69119f1476965a1d9431fd82156b499e64fd1dfd868796085&ipo=images'
     ),
     (
         'Pop',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'R&B',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Hip-Hop',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Country',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://emby.media/community/uploads/monthly_2020_08/country.png.7ce72a5b848d9489c491b442d9de3b20.png'
     ),
     (
         'Jazz',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Blues',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://emby.media/community/uploads/monthly_2020_08/blues.png.f2db5148877e864d6645ebf1be696f47.png'
     ),
     (
         'Electronic',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Reggae',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Classical',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Rap',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Trap',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Soul',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Folk',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Indie',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Metal',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Punk',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.Iqxxk3Nh7G_6GOx4t57BQgHaHa%26pid%3DApi&f=1&ipt=4c1d3c18d0d045a4f8ee7ae61870329c6831235074acd5396b0b75c30746e2a6&ipo=images'
     ),
     (
         'Alternative',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.explicit.bing.net%2Fth%3Fid%3DOIP.YqLHtLt8pEe1Lo1xndhAogHaHa%26pid%3DApi&f=1&ipt=5eeaebf5d56b832fe0ae44f27831214cc874a8912480def4e0e439e456852ecd&ipo=images'
     ),
     (
         'K-Pop',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     ),
     (
         'Latin',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Pieter_Bruegel_d._%C3%84._014.jpg/440px-Pieter_Bruegel_d._%C3%84._014.jpg'
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     );

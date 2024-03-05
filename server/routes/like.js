@@ -26,9 +26,6 @@ router.post("/song", async (req, res) => {
         // Execute the query to insert the liked song
         await db.query(insertQuery, [user_id, song_id]);
 
-        // const updateQuery = `UPDATE song SET popularity = LEAST(popularity + 1, 10) WHERE song_id = $1`;
-        // await db.query(updateQuery, [song_id]);
-
         // Send response indicating successful addition
         res.status(200).json({
             status: "success",
@@ -163,6 +160,5 @@ router.post("/genre", async (req, res) => {
         });
     }
 });
-
 
 module.exports = router;

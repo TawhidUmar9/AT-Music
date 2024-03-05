@@ -152,5 +152,6 @@ router.get("/like", async (req, res) => {
         });
     }
 });
+//user can delete account which will initiate cascade.
 
 module.exports = router;
