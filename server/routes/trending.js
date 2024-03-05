@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
                 LIMIT 10
             ) AS s1
         )
-        AND s.song_id IN (
+        OR s.song_id IN (
             SELECT s2.song_id
             FROM (
                 SELECT song.song_id

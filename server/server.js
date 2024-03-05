@@ -15,6 +15,7 @@ const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const albumRoute = require('./routes/album');
 const trendingRoute = require('./routes/trending');
+const genreRoute = require('./routes/genre');
 
 app.use('/api/v1/song', songRoute);
 app.use('/api/v1/artist', artistRoute);
@@ -24,6 +25,7 @@ app.use('/api/v1/login', loginRoute);
 app.use('/api/v1/register', registerRoute);
 app.use('/api/v1/album', albumRoute);
 app.use('/api/v1/trending', trendingRoute);
+app.use('/api/v1/genre', genreRoute);
 
 app.listen(port, () => {
     console.log(`server is up and running on port ${port}`);
