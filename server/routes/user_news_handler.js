@@ -47,4 +47,34 @@ router.get("/news", async (req, res) => {
     }
 })
 
+//get all news
+
+router.get("/allnews", async(req, res) =>{
+    try{
+        const allNewsQuery = `
+        SELECT id, title, content, created_at, artist_id AS entity_id, 'artist' AS entity_type
+        FROM artist_news
+        WHERE created_at >= NOW() - INTERVAL '7 days'
+        UNION
+        SELECT id, title, content, created_at, song_id AS entity_id, 'song' AS entity_type
+        FROM song_news
+        WHERE created_at >= NOW() - INTERVAL '7 days'
+    `;
+    
+        const allNewsResult = await db.query(allNewsQuery);
+        res.status(200).json({
+            status: "success",
+            data: {
+                allNewsResult: allNewsResult.rows
+            }
+        });
+    }catch(err){
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error",
+        });
+    }
+})
+
 module.exports = router;

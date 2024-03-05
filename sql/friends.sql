@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS friedns;
+DROP TABLE IF EXISTS friends;
 
 DROP TABLE IF EXISTS friend_request;
 
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS friends (
     friendship_id SERIAL PRIMARY KEY,
     user1 INTEGER NOT NULL,
     user2 INTEGER NOT NULL,
-    request_accepted TIMESTAMP NOT NULL,
+    date_connected TIMESTAMP NOT NULL,
     CONSTRAINT fk_user1 FOREIGN KEY (user1) REFERENCES user_db(user_id) ON DELETE CASCADE,
     CONSTRAINT fk_user2 FOREIGN KEY (user2) REFERENCES user_db(user_id) ON DELETE CASCADE
 );

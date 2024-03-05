@@ -35,7 +35,8 @@ router.get("/suggestions", async (req, res) => {
                 AND
                     la.user_id != $1
                 GROUP BY ud.user_id, ud.username
-            )`;
+            )
+            `;
 
         const suggestionsResult = await db.query(suggestionsQuery, [user_id]);
 
@@ -66,8 +67,24 @@ router.post("/addfriend", async (req, res) => {
                 status: "error",
                 message: "Invalid input data"
             });
+        } else if (sender_id === recipient_id) {
+            return res.status(400).json({
+                status: "error",
+                message: "You cannot send a friend request to yourself"
+            });
         }
-
+        // Check if friend request already exists
+        const checkFriendRequestQuery = `
+            SELECT * FROM friend_request
+            WHERE sender = $1 AND recipient = $2`;
+        const checkFriendRequestResult =
+            await db.query(checkFriendRequestQuery, [sender_id, recipient_id]);
+        if (checkFriendRequestResult.rows.length > 0) {
+            return res.status(403).json({
+                status: "error",
+                message: "Friend request already exists"
+            });
+        }
         // Insert friend request if status is false
         if (!status) {
             const addFriendQuery = `
@@ -91,8 +108,99 @@ router.post("/addfriend", async (req, res) => {
         });
     }
 });
-
 //accept friend request.
+router.post("/acceptfriend", async (req, res) => {
+    try {
+        const { sender_id, recipient_id } = req.body;
+        if (!sender_id || !recipient_id) {
+            return res.status(400).json({
+                status: "error",
+                message: "Invalid input data"
+            });
+        }
+        //check if friend request exists
+        const checkFriendRequestQuery = `
+            SELECT * FROM friend_request
+            WHERE sender = $1 AND recipient = $2`;
+        const checkFriendRequestResult =
+            await db.query(checkFriendRequestQuery, [sender_id, recipient_id]);
+        if (checkFriendRequestResult.rows.length === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Friend request not found"
+            });
+        }
+        //delete friend request
+        const deleteFriendRequestQuery = `
+            DELETE FROM friend_request
+            WHERE sender = $1 AND recipient = $2`;
+        await db.query(deleteFriendRequestQuery, [sender_id, recipient_id]);
+
+        const acceptFriendQuery = `
+            INSERT INTO friends(user1, user2, date_connected)
+                values($1, $2, $3)`;
+        await db.query(acceptFriendQuery, [sender_id, recipient_id, new Date()]);
+        await db.query(acceptFriendQuery, [recipient_id, sender_id, new Date()]);
+        // Respond with success message
+        res.status(200).json({
+            status: "success",
+            data: {
+                message: "Friend request accepted successfully"
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "An internal server error occurred"
+        });
+    }
+});
 //reject friend request.
+router.delete("/rejectfriend", async (req, res) => {
+    try {
+        const { sender_id, recipient_id } = req.body;
+        if (!sender_id || !recipient_id) {
+            return res.status(400).json({
+                status: "error",
+                message: "Invalid input data"
+            });
+        }
+        //check if friend request exists
+        const checkFriendRequestQuery = `
+            SELECT * FROM friend_request
+            WHERE sender = $1 AND recipient = $2`;
+        const checkFriendRequestResult =
+            await db.query(checkFriendRequestQuery, [sender_id, recipient_id]);
+        if (checkFriendRequestResult.rows.length === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Friend request not found"
+            });
+        }
+        //delete friend request
+        const deleteFriendRequestQuery = `
+            DELETE FROM friend_request
+            WHERE sender = $1 AND recipient = $2`;
+        await db.query(deleteFriendRequestQuery, [sender_id, recipient_id]);
+
+        // Respond with success message
+        res.status(200).json({
+            status: "success",
+            data: {
+                message: "Friend request rejected successfully"
+            }
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "An internal server error occurred"
+        });
+    }
+})
+
+//get friend request list.
 
 module.exports = router;
