@@ -12,6 +12,9 @@ const purchaseRoute = require('./purchase');
 const friendRoute = require('./friend_handler');
 const profileRoute = require('./profile');
 const profileUpdateRoute = require('./user_update_handler');
+const friendSuggestionRout = require('./friend_suggestion_handler');
+const friendListRoute = require('./friend_list');
+
 
 router.use('/', reviewRoute);
 router.use('/', likeRouter);
@@ -22,6 +25,8 @@ router.use('/', purchaseRoute);
 router.use('/', friendRoute);
 router.use('/', profileRoute);
 router.use('/', profileUpdateRoute);
+router.use('/', friendSuggestionRout);
+router.use('/', friendListRoute);
 
 
 //get liked entities
@@ -152,6 +157,34 @@ router.get("/like", async (req, res) => {
         });
     }
 });
+
 //user can delete account which will initiate cascade.
+router.delete("/delete", async (req, res) => {
+    try {
+        const { user_id } = req.body;
+        if (!user_id) {
+            return res.status(400).json({
+                status: "error",
+                message: "User ID is required"
+            });
+        }
+        const query = `
+        DELETE FROM user_db
+        WHERE user_id = $1`;
+        await db.query(query, [user_id]);
+        res.status(200).json({
+            status: "success",
+            data: {
+                message: "Account deleted successfully"
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
+        });
+    }
+});
 
 module.exports = router;
