@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS purchase_history;
-
-DROP TABLE IF EXISTS cart;
-
 CREATE TABLE IF NOT EXISTS purchase_history (
     purchase_id BIGSERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,

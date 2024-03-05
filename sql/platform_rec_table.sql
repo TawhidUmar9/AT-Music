@@ -1,14 +1,3 @@
--- Drop existing tables if they exist
-DROP TABLE IF EXISTS platform_song;
-
-DROP TABLE IF EXISTS recording_song;
-
-DROP TABLE IF EXISTS platform;
-
-DROP TABLE IF EXISTS rec_type;
-
--- Create the platform table
--- Create the platform table
 CREATE TABLE platform (
     platform_id BIGSERIAL PRIMARY KEY NOT NULL,
     platform_name VARCHAR(50) NOT NULL,

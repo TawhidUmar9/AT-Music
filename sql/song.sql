@@ -13,9 +13,7 @@ CREATE TABLE IF NOT EXISTS song (
     price DECIMAL,
     genre_id INTEGER,
     CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES artist (artist_id) ON DELETE CASCADE,
-    -- Specify the referenced table
     CONSTRAINT fk_album FOREIGN KEY (album_id) REFERENCES album (album_id) ON DELETE CASCADE,
-    -- Specify the referenced table
     CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genre (genre_id) ON DELETE CASCADE -- Specify the referenced table
 );
 

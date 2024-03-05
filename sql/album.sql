@@ -1,4 +1,3 @@
--- Create the table
 CREATE TABLE IF NOT EXISTS album (
     album_id SERIAL PRIMARY KEY NOT NULL,
     album_name VARCHAR(255) NOT NULL,
@@ -11,7 +10,7 @@ CREATE TABLE IF NOT EXISTS album (
 
 -- Insert da88ta for the specified albums
 INSERT INTO
-    album (album_name, artist_id, album_year)
+    album (album_name, artist_id, album_year, album_artwork)
 VALUES
     (
         'I Never Loved a Man the Way I Love You',
@@ -43,7 +42,12 @@ VALUES
         1971,
         'https://upload.wikimedia.org/wikipedia/en/2/26/Led_Zeppelin_-_Led_Zeppelin_IV.jpg'
     ),
-    ('Here Are The Kingsmen', 6, 1963),
+    (
+        'Here Are The Kingsmen',
+        6,
+        1963,
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/TheBeatles68LP.jpg/330px-TheBeatles68LP.jpg'
+    ),
     (
         'In the Groove',
         7,
@@ -110,8 +114,12 @@ VALUES
         1965,
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images'
     ),
-    ('Imagine', 18, 1971),
-    'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images',
+    (
+        'Imagine',
+        18,
+        1971,
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images'
+    ),
     (
         'Whats Going On',
         7,
@@ -142,8 +150,12 @@ VALUES
         1967,
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images'
     ),
-    ('Talking Book', 22, 1972),
-    'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images',
+    (
+        'Talking Book',
+        22,
+        1972,
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images'
+    ),
     (
         'Layla and Other Assorted Love Songs',
         23,
@@ -453,7 +465,8 @@ VALUES
     (
         'The Animals',
         17,
-        1964 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images'
+        1964,
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images'
     ),
     (
         'Help!',

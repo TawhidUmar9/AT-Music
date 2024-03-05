@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS friends;
-
-DROP TABLE IF EXISTS friend_request;
-
 CREATE TABLE IF NOT EXISTS friends (
     friendship_id SERIAL PRIMARY KEY,
     user1 INTEGER NOT NULL,

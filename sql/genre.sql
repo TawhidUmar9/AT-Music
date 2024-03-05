@@ -1,12 +1,12 @@
--- Create the genre table
 CREATE TABLE IF NOT EXISTS genre (
     genre_id BIGSERIAL PRIMARY KEY NOT NULL,
-    genre_name VARCHAR(50) NOT NULL
+    genre_name VARCHAR(50) NOT NULL,
+    genre_image_url VARCHAR(255)
 );
 
 -- Insert data for genres
 INSERT INTO
-    genre (genre_name)
+    genre (genre_name, genre_image_url)
 VALUES
     (
         'Rock',

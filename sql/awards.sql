@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS awards_list;
-
-DROP TABLE IF EXISTS awards;
-
 CREATE TABLE IF NOT EXISTS awards_list (
     award_id BIGSERIAL PRIMARY KEY NOT NULL,
     award_name VARCHAR(50) NOT NULL,

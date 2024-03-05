@@ -6,6 +6,7 @@ CREATE TABLE user_db (
     phone_number VARCHAR(50) UNIQUE NOT NULL,
     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP,
+    last_logout TIMESTAMP,
     last_updated TIMESTAMP
 );
 

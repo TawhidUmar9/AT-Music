@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS artist_news;
-
-DROP TABLE IF EXISTS song_news;
-
 CREATE TABLE IF NOT EXISTS artist_news (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,

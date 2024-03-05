@@ -8,7 +8,7 @@ CREATE TABLE artist (
 );
 
 INSERT INTO
-    artist (artist_name, alias, small_biography)
+    artist (artist_name, alias, small_biography, artist_intro_video, artist_image)
 VALUES
     (
         'Aretha Franklin',

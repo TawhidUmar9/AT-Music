@@ -1,5 +1,3 @@
-DROP TABLE IF NOT EXISTS song_synopsis;
-
 CREATE TABLE IF NOT EXISTS song_synopsis(
     song_id INTEGER NOT NULL,
     synopsis TEXT NOT NULL
