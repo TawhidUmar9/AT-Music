@@ -5,9 +5,7 @@ const db = require('../db');
 //get all albums
 router.get("/", async (req, res) => {
     try {
-        const query = `SELECT * FROM album
-        left join artist on album.artist_id = artist.artist_id
-        left join song on album.album_id = song.album_id`;
+        const query = `SELECT * FROM album`;
         const result = await db.query(query);
         res.status(200).json({
             status: "success",
@@ -23,7 +21,7 @@ router.get("/", async (req, res) => {
 router.get("/:albumName", async (req, res) => {
     try {
         const albumName = req.params.albumName;
-        const {user_id} = req.query;
+        const { user_id } = req.query;
         const query = `SELECT * FROM album
         left join artist on album.artist_id = artist.artist_id
         left join song on album.album_id = song.album_id
