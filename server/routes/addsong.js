@@ -79,6 +79,7 @@ router.post("/song", async (req, res) => {
                 message: "Platform not found"
             });
         }
+        console.log("Hello");
         const platform_id = platformResult.rows[0].platform_id;
         // Find recording_id from recording table
         const recordingQuery = `SELECT rectype_id FROM 

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS song (
     song_length INTERVAL,
     age_rating INTEGER,
     popularity INTEGER CHECK (
-        popularity BETWEEN 1
+        popularity BETWEEN 0
         AND 10
     ),
     price DECIMAL,

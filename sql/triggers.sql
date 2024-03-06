@@ -1,10 +1,9 @@
 CREATE OR REPLACE FUNCTION set_default_popularity()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Set the popularity of the newly inserted song to 0
     UPDATE song
     SET popularity = 0
-    WHERE id = NEW.id;
+    WHERE song_id = NEW.song_id;
 
     RETURN NEW;
 END;
@@ -15,7 +14,47 @@ AFTER INSERT ON song
 FOR EACH ROW
 EXECUTE FUNCTION set_default_popularity();
 
--- Prevent Duplicate Album Name Trigger
+
+
+CREATE OR REPLACE FUNCTION prevent_username_reuse() 
+RETURNS TRIGGER AS $tag$ 
+BEGIN 
+    IF NEW.username = OLD.username AND NEW.email = OLD.email
+        AND NEW.phone_number = OLD.phone_number THEN
+        RAISE EXCEPTION 'Username, email, and phone number must be different from the previous values';
+    END IF;
+    
+    RETURN NEW;
+END;
+$tag$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_username_reuse 
+BEFORE UPDATE OF username, email, phone_number ON user_db 
+FOR EACH ROW 
+EXECUTE FUNCTION prevent_username_reuse();
+
+
+
+
+CREATE OR REPLACE FUNCTION check_password_update() 
+RETURNS TRIGGER AS $tag$ 
+BEGIN 
+    IF NEW.password = OLD.password THEN 
+        RAISE EXCEPTION 'New password must be different from the previous password';
+    END IF;
+    
+    RETURN NEW;
+END;
+$tag$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_update_password 
+BEFORE UPDATE OF password ON user_db 
+FOR EACH ROW 
+WHEN (NEW.password IS NOT NULL) 
+EXECUTE FUNCTION check_password_update();
+----------------------------------------------------------------------------------
+
+
 CREATE OR REPLACE FUNCTION prevent_duplicate_album() 
 RETURNS TRIGGER AS $tag$ 
 BEGIN 
@@ -34,42 +73,18 @@ BEFORE INSERT ON album
 FOR EACH ROW 
 EXECUTE FUNCTION prevent_duplicate_album();
 
--- User Password Update Trigger
-CREATE OR REPLACE FUNCTION check_password_update() 
-RETURNS TRIGGER AS $tag$ 
-BEGIN 
-    IF NEW.password = OLD.password THEN 
-        RAISE EXCEPTION 'New password must be different from the previous password';
-    END IF;
-    
-    RETURN NEW;
-END;
-$tag$ LANGUAGE plpgsql;
 
-CREATE TRIGGER before_update_password 
-BEFORE UPDATE OF password ON user_db 
-FOR EACH ROW 
-WHEN (NEW.password IS NOT NULL) 
-EXECUTE FUNCTION check_password_update();
 
--- Prevent Username Reuse Trigger
-CREATE OR REPLACE FUNCTION prevent_username_reuse() 
-RETURNS TRIGGER AS $tag$ 
-BEGIN 
-    IF NEW.username = OLD.username THEN 
-        RAISE EXCEPTION 'New username cannot be the same as the previous username';
-    END IF;
-    
-    RETURN NEW;
-END;
-$tag$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_username_reuse 
-BEFORE UPDATE OF username ON user_db 
-FOR EACH ROW 
-EXECUTE FUNCTION prevent_username_reuse();
 
---5
+
+
+
+
+
+
+
+
 CREATE OR REPLACE FUNCTION delete_likes_on_song_delete()
 RETURNS TRIGGER AS $$
 BEGIN
