@@ -14,14 +14,12 @@ router.post('/', async (req, res) => {
         console.log("No user found");
         return res.json({ success: false });
       }
-
-      // Encrypt the provided password before comparing
-      const providedPWD = await db.query('SELECT pgp_sym_encrypt($1, $2)::text as encrypted_password', [password, process.env.ENCRYPTION_LOGIN]);
-      if (result.rows[0].password !== providedPWD.rows[0].encrypted_password) {
+      const pwd = await db.query('SELECT pgp_sym_decrypt($1, $2)::text as encrypted_password', [result.rows[0].password, process.env.ENCRYPTION_LOGIN]);
+      if (pwd.rows[0].encrypted_password !== password) {
         // If passwords don't match, authentication fails
         console.log("Passwords don't match");
-        console.log(result.rows[0].password);
-        console.log(providedPWD.rows[0].encrypted_password)
+        console.log(pwd.rows[0].encrypted_password);
+        console.log(password)
         return res.json({ success: false });
       }
 
