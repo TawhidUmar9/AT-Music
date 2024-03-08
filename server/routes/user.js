@@ -14,6 +14,7 @@ const profileRoute = require('./profile');
 const profileUpdateRoute = require('./user_update_handler');
 const friendSuggestionRout = require('./friend_suggestion_handler');
 const friendListRoute = require('./friend_list');
+const chatRoute = require('./chat');
 
 
 router.use('/', reviewRoute);
@@ -27,6 +28,7 @@ router.use('/', profileRoute);
 router.use('/', profileUpdateRoute);
 router.use('/', friendSuggestionRout);
 router.use('/', friendListRoute);
+router.use('/', chatRoute);
 
 
 //get liked entities

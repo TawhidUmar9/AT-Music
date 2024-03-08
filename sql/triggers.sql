@@ -1,77 +1,85 @@
-CREATE OR REPLACE FUNCTION set_default_popularity()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE song
-    SET popularity = 0
-    WHERE song_id = NEW.song_id;
+CREATE
+OR REPLACE FUNCTION set_default_popularity() RETURNS TRIGGER AS $ $ BEGIN
+UPDATE
+    song
+SET
+    popularity = 0
+WHERE
+    song_id = NEW.song_id;
 
-    RETURN NEW;
+RETURN NEW;
+
 END;
-$$ LANGUAGE plpgsql;
+
+$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER set_default_popularity_trigger
-AFTER INSERT ON song
+AFTER
+INSERT
+    ON song FOR EACH ROW EXECUTE FUNCTION set_default_popularity();
+
+CREATE
+OR REPLACE FUNCTION prevent_username_reuse() RETURNS TRIGGER AS $ tag $ BEGIN IF NEW.username = OLD.username
+AND NEW.email = OLD.email
+AND NEW.phone_number = OLD.phone_number THEN RAISE EXCEPTION 'Username, email, and phone number must be different from the previous values';
+
+END IF;
+
+RETURN NEW;
+
+END;
+
+$ tag $ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_username_reuse BEFORE
+UPDATE
+    OF username,
+    email,
+    phone_number ON user_db FOR EACH ROW EXECUTE FUNCTION prevent_username_reuse();
+
+CREATE
+OR REPLACE FUNCTION check_password_update() RETURNS TRIGGER AS $ tag $ BEGIN IF NEW.password = OLD.password THEN RAISE EXCEPTION 'New password must be different from the previous password';
+
+END IF;
+
+RETURN NEW;
+
+END;
+
+$tag$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_update_password BEFORE
+UPDATE
+    OF password ON user_db FOR EACH ROW
+    WHEN (NEW.password IS NOT NULL) EXECUTE FUNCTION check_password_update();
+
+
+CREATE OR REPLACE FUNCTION log_table_changes()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        INSERT INTO change_log(table_name, column_name, operation)
+        VALUES (TG_TABLE_NAME, 'All', 'INSERT');
+    ELSIF TG_OP = 'UPDATE' THEN
+        INSERT INTO change_log(table_name, column_name, operation)
+        VALUES (TG_TABLE_NAME, TG_ARGV[0], 'UPDATE');
+    ELSIF TG_OP = 'DELETE' THEN
+        INSERT INTO change_log(table_name, column_name, operation)
+        VALUES (TG_TABLE_NAME, 'All', 'DELETE');
+    END IF;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER table_change_trigger
+AFTER INSERT OR UPDATE OR DELETE ON change_log
 FOR EACH ROW
-EXECUTE FUNCTION set_default_popularity();
+EXECUTE FUNCTION log_table_changes();
 
-
-
-CREATE OR REPLACE FUNCTION prevent_username_reuse() 
-RETURNS TRIGGER AS $tag$ 
-BEGIN 
-    IF NEW.username = OLD.username AND NEW.email = OLD.email
-        AND NEW.phone_number = OLD.phone_number THEN
-        RAISE EXCEPTION 'Username, email, and phone number must be different from the previous values';
-    END IF;
-    
-    RETURN NEW;
-END;
-$tag$ LANGUAGE plpgsql;
-
-CREATE TRIGGER check_username_reuse 
-BEFORE UPDATE OF username, email, phone_number ON user_db 
-FOR EACH ROW 
-EXECUTE FUNCTION prevent_username_reuse();
-
-
-
-
-CREATE OR REPLACE FUNCTION check_password_update() 
-RETURNS TRIGGER AS $tag$ 
-BEGIN 
-    IF NEW.password = OLD.password THEN 
-        RAISE EXCEPTION 'New password must be different from the previous password';
-    END IF;
-    
-    RETURN NEW;
-END;
-$tag$ LANGUAGE plpgsql;
-
-CREATE TRIGGER before_update_password 
-BEFORE UPDATE OF password ON user_db 
-FOR EACH ROW 
-WHEN (NEW.password IS NOT NULL) 
-EXECUTE FUNCTION check_password_update();
 ----------------------------------------------------------------------------------
 
-
-CREATE OR REPLACE FUNCTION prevent_duplicate_album() 
-RETURNS TRIGGER AS $tag$ 
-BEGIN 
-    IF EXISTS (
-        SELECT 1 FROM album WHERE name = NEW.name
-    ) THEN 
-        RAISE EXCEPTION 'An album with the same name already exists';
-    END IF;
-    
-    RETURN NEW;
-END;
-$tag$ LANGUAGE plpgsql;
-
-CREATE TRIGGER check_duplicate_album 
-BEFORE INSERT ON album 
-FOR EACH ROW 
-EXECUTE FUNCTION prevent_duplicate_album();
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+--this is for the encrypted chat.S
 
 
 
@@ -79,228 +87,135 @@ EXECUTE FUNCTION prevent_duplicate_album();
 
 
 
+--------------------------------------------------------------------------------
 
-
-
-
-
-
-CREATE OR REPLACE FUNCTION delete_likes_on_song_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM liked_song WHERE song_id = OLD.song_id;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_delete_likes_on_song_delete
-AFTER DELETE ON song
-FOR EACH ROW
-EXECUTE FUNCTION delete_likes_on_song_delete();
-
---6
-
-CREATE OR REPLACE FUNCTION delete_likes_on_artist_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM liked_song WHERE song_id IN (SELECT song_id FROM song WHERE artist_id = OLD.artist_id);
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_delete_likes_on_artist_delete
-AFTER DELETE ON artist
-FOR EACH ROW
-EXECUTE FUNCTION delete_likes_on_artist_delete();
-
---7
-
-CREATE OR REPLACE FUNCTION delete_likes_on_album_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM liked_song WHERE song_id IN (SELECT song_id FROM song WHERE album_id = OLD.album_id);
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_delete_likes_on_album_delete
-AFTER DELETE ON album
-FOR EACH ROW
-EXECUTE FUNCTION delete_likes_on_album_delete();
-
---7
-
-CREATE OR REPLACE FUNCTION delete_likes_on_genre_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM liked_song WHERE song_id IN (SELECT song_id FROM song WHERE genre_id = OLD.genre_id);
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_delete_likes_on_genre_delete
-AFTER DELETE ON genre
-FOR EACH ROW
-EXECUTE FUNCTION delete_likes_on_genre_delete();
-
---8 when album is deleted, all songs from the album will be deleted
-CREATE OR REPLACE FUNCTION delete_songs_on_album_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM song WHERE album_id = OLD.album_id;
-    DELETE FROM liked_album WHERE album_id = OLD.album_id;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_delete_songs_on_album_delete
-AFTER DELETE ON album
-FOR EACH ROW
-EXECUTE FUNCTION delete_songs_on_album_delete();
-
---9 when artist is deleted, all songs from the artist will be deleted
-CREATE OR REPLACE FUNCTION delete_albums_and_songs_on_artist_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM album WHERE artist_id = OLD.artist_id;
-    DELETE FROM liked_artist WHERE artist_id = OLD.artist_id;
-    DELETE FROM song WHERE artist_id = OLD.artist_id;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_delete_albums_and_songs_on_artist_delete
-AFTER DELETE ON artist
-FOR EACH ROW
-EXECUTE FUNCTION delete_albums_and_songs_on_artist_delete();
-
-
---10 when genre is deleted, all songs from the genre will be deleted
--- Create trigger to delete songs when genre is deleted
-CREATE OR REPLACE FUNCTION delete_songs_on_genre_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM song WHERE genre_id = OLD.genre_id;
-    DELETE FROM liked_genre WHERE genre_id = OLD.genre_id; -- Optionally delete from liked_genre table
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
--- Create trigger for deleting songs on genre deletion
-CREATE TRIGGER trigger_delete_songs_on_genre_delete
-AFTER DELETE ON genre
-FOR EACH ROW
-EXECUTE FUNCTION delete_songs_on_genre_delete();
 
 --when any review is added to the reviews table, the song popularity is also updated then.
+CREATE
+OR REPLACE FUNCTION update_song_popularity() RETURNS TRIGGER AS $ $ DECLARE total_ratings INT;
 
-CREATE OR REPLACE FUNCTION update_song_popularity()
-RETURNS TRIGGER AS $$
-DECLARE
-    total_ratings INT;
-    average_rating DECIMAL;
-    current_popularity DECIMAL;
-    blended_popularity DECIMAL;
-BEGIN
-    -- Calculate the total number of ratings and average rating for the song
-    SELECT COUNT(*), COALESCE(AVG(rating), 0)
-    INTO total_ratings, average_rating
-    FROM reviews
-    WHERE song_id = NEW.song_id;
+average_rating DECIMAL;
 
-    -- Calculate the current popularity of the song
-    SELECT popularity
-    INTO current_popularity
-    FROM song
-    WHERE song_id = NEW.song_id;
+current_popularity DECIMAL;
 
-    -- Blend the current popularity with the calculated average rating
-    blended_popularity := (current_popularity + average_rating) / 2;
+blended_popularity DECIMAL;
 
-    -- Limit the blended popularity to a maximum of 10
-    IF blended_popularity > 10 THEN
-        blended_popularity := 10;
-    END IF;
+BEGIN -- Calculate the total number of ratings and average rating for the song
+SELECT
+    COUNT(*),
+    COALESCE(AVG(rating), 0) INTO total_ratings,
+    average_rating
+FROM
+    reviews
+WHERE
+    song_id = NEW.song_id;
 
-    -- Update the song table with the blended popularity
-    UPDATE song
-    SET popularity = blended_popularity
-    WHERE song_id = NEW.song_id;
+-- Calculate the current popularity of the song
+SELECT
+    popularity INTO current_popularity
+FROM
+    song
+WHERE
+    song_id = NEW.song_id;
 
-    RETURN NEW;
+-- Blend the current popularity with the calculated average rating
+blended_popularity := (current_popularity + average_rating) / 2;
+
+-- Limit the blended popularity to a maximum of 10
+IF blended_popularity > 10 THEN blended_popularity := 10;
+
+END IF;
+
+-- Update the song table with the blended popularity
+UPDATE
+    song
+SET
+    popularity = blended_popularity
+WHERE
+    song_id = NEW.song_id;
+
+RETURN NEW;
+
 END;
-$$ LANGUAGE plpgsql;
+
+$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_song_popularity_trigger
-AFTER INSERT ON reviews
-FOR EACH ROW
-EXECUTE FUNCTION update_song_popularity();
-
+AFTER
+INSERT
+    ON reviews FOR EACH ROW EXECUTE FUNCTION update_song_popularity();
 
 -- Update Trigger
-CREATE OR REPLACE FUNCTION update_song_popularity_update()
-RETURNS TRIGGER AS $$
-DECLARE
-    average_rating DECIMAL;
-BEGIN
-    -- Calculate the average rating for the song
-    SELECT COALESCE(AVG(rating), 0)
-    INTO average_rating
-    FROM reviews
-    WHERE song_id = NEW.song_id;
+CREATE
+OR REPLACE FUNCTION update_song_popularity_update() RETURNS TRIGGER AS $ $ DECLARE average_rating DECIMAL;
 
-    -- Update the song table with the calculated average rating
-    UPDATE song
-    SET popularity = average_rating
-    WHERE song_id = NEW.song_id;
+BEGIN -- Calculate the average rating for the song
+SELECT
+    COALESCE(AVG(rating), 0) INTO average_rating
+FROM
+    reviews
+WHERE
+    song_id = NEW.song_id;
 
-    RETURN NEW;
+-- Update the song table with the calculated average rating
+UPDATE
+    song
+SET
+    popularity = average_rating
+WHERE
+    song_id = NEW.song_id;
+
+RETURN NEW;
+
 END;
-$$ LANGUAGE plpgsql;
+
+$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_song_popularity_update_trigger
-AFTER UPDATE ON reviews
-FOR EACH ROW
-EXECUTE FUNCTION update_song_popularity_update();
+AFTER
+UPDATE
+    ON reviews FOR EACH ROW EXECUTE FUNCTION update_song_popularity_update();
 
+CREATE
+OR REPLACE FUNCTION update_song_popularity_delete() RETURNS TRIGGER AS $ $ DECLARE average_rating DECIMAL;
 
-CREATE OR REPLACE FUNCTION update_song_popularity_delete()
-RETURNS TRIGGER AS $$
-DECLARE
-    average_rating DECIMAL;
-BEGIN
-    -- Calculate the average rating for the song
-    SELECT COALESCE(AVG(rating), 0)
-    INTO average_rating
-    FROM reviews
-    WHERE song_id = OLD.song_id;
+BEGIN -- Calculate the average rating for the song
+SELECT
+    COALESCE(AVG(rating), 0) INTO average_rating
+FROM
+    reviews
+WHERE
+    song_id = OLD.song_id;
 
-    -- Update the song table with the calculated average rating
-    UPDATE song
-    SET popularity = average_rating
-    WHERE id = OLD.song_id;
+-- Update the song table with the calculated average rating
+UPDATE
+    song
+SET
+    popularity = average_rating
+WHERE
+    id = OLD.song_id;
 
-    RETURN OLD;
+RETURN OLD;
+
 END;
-$$ LANGUAGE plpgsql;
+
+$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_song_popularity_delete_trigger
-AFTER DELETE ON reviews
-FOR EACH ROW
-EXECUTE FUNCTION update_song_popularity_delete();
+AFTER
+    DELETE ON reviews FOR EACH ROW EXECUTE FUNCTION update_song_popularity_delete();
 
 -- Update last_updated column on user update
-CREATE OR REPLACE FUNCTION update_last_updated()
-RETURNS TRIGGER AS
-$$
-BEGIN
-    NEW.last_updated = NOW(); -- Set last_updated to the current timestamp
-    RETURN NEW;
-END;
-$$
-LANGUAGE plpgsql;
+CREATE
+OR REPLACE FUNCTION update_last_updated() RETURNS TRIGGER AS $ $ BEGIN NEW.last_updated = NOW();
 
-CREATE TRIGGER update_user_last_updated
-BEFORE UPDATE ON user_db
-FOR EACH ROW
-EXECUTE FUNCTION update_last_updated();
+-- Set last_updated to the current timestamp
+RETURN NEW;
+
+END;
+
+$ $ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_user_last_updated BEFORE
+UPDATE
+    ON user_db FOR EACH ROW EXECUTE FUNCTION update_last_updated();
