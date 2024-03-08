@@ -1,35 +1,7 @@
-CREATE
-OR REPLACE FUNCTION set_default_popularity() RETURNS TRIGGER AS $ $ BEGIN
-UPDATE
-    song
-SET
-    popularity = 0
-WHERE
-    song_id = NEW.song_id;
-
-RETURN NEW;
-
-END;
-
-$ $ LANGUAGE plpgsql;
-
 CREATE TRIGGER set_default_popularity_trigger
 AFTER
 INSERT
     ON song FOR EACH ROW EXECUTE FUNCTION set_default_popularity();
-
-CREATE
-OR REPLACE FUNCTION prevent_username_reuse() RETURNS TRIGGER AS $ tag $ BEGIN IF NEW.username = OLD.username
-AND NEW.email = OLD.email
-AND NEW.phone_number = OLD.phone_number THEN RAISE EXCEPTION 'Username, email, and phone number must be different from the previous values';
-
-END IF;
-
-RETURN NEW;
-
-END;
-
-$ tag $ LANGUAGE plpgsql;
 
 CREATE TRIGGER check_username_reuse BEFORE
 UPDATE
@@ -37,56 +9,55 @@ UPDATE
     email,
     phone_number ON user_db FOR EACH ROW EXECUTE FUNCTION prevent_username_reuse();
 
+
+CREATE TRIGGER before_update_password 
+BEFORE UPDATE OF password ON user_db 
+FOR EACH ROW 
+WHEN (NEW.password IS NOT NULL) 
+EXECUTE FUNCTION check_password_update();
+
+
+
+
 CREATE
-OR REPLACE FUNCTION check_password_update() RETURNS TRIGGER AS $ tag $ BEGIN IF NEW.password = OLD.password THEN RAISE EXCEPTION 'New password must be different from the previous password';
+OR REPLACE FUNCTION log_table_changes() RETURNS TRIGGER AS $ $ BEGIN IF TG_OP = 'INSERT' THEN
+INSERT INTO
+    change_log(table_name, column_name, operation)
+VALUES
+    (TG_TABLE_NAME, 'All', 'INSERT');
+
+ELSIF TG_OP = 'UPDATE' THEN
+INSERT INTO
+    change_log(table_name, column_name, operation)
+VALUES
+    (TG_TABLE_NAME, TG_ARGV [0], 'UPDATE');
+
+ELSIF TG_OP = 'DELETE' THEN
+INSERT INTO
+    change_log(table_name, column_name, operation)
+VALUES
+    (TG_TABLE_NAME, 'All', 'DELETE');
 
 END IF;
 
-RETURN NEW;
+RETURN NULL;
 
 END;
 
-$tag$ LANGUAGE plpgsql;
-
-CREATE TRIGGER before_update_password BEFORE
-UPDATE
-    OF password ON user_db FOR EACH ROW
-    WHEN (NEW.password IS NOT NULL) EXECUTE FUNCTION check_password_update();
-
-
-CREATE OR REPLACE FUNCTION log_table_changes()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'INSERT' THEN
-        INSERT INTO change_log(table_name, column_name, operation)
-        VALUES (TG_TABLE_NAME, 'All', 'INSERT');
-    ELSIF TG_OP = 'UPDATE' THEN
-        INSERT INTO change_log(table_name, column_name, operation)
-        VALUES (TG_TABLE_NAME, TG_ARGV[0], 'UPDATE');
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO change_log(table_name, column_name, operation)
-        VALUES (TG_TABLE_NAME, 'All', 'DELETE');
-    END IF;
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
+$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER table_change_trigger
-AFTER INSERT OR UPDATE OR DELETE ON change_log
-FOR EACH ROW
-EXECUTE FUNCTION log_table_changes();
+AFTER
+INSERT
+    OR
+UPDATE
+    OR DELETE ON change_log FOR EACH ROW EXECUTE FUNCTION log_table_changes();
 
 ----------------------------------------------------------------------------------
-
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 --this is for the encrypted chat.S
-
-
-
-
 --------------------------------------------------------------------------------
-
-
 --when any review is added to the reviews table, the song popularity is also updated then.
 CREATE
 OR REPLACE FUNCTION update_song_popularity() RETURNS TRIGGER AS $ $ DECLARE total_ratings INT;
