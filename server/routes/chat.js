@@ -43,7 +43,7 @@ router.post("/chat", async (req, res) => {
 router.get("/chat/:user_id1", async (req, res) => {
     try {
         const user_id1 = req.params.user_id1;
-        const user_id2 = req.query.user_id2;
+        const user_id2 = req.query.user_id2; 
 
         // Validate user IDs
         if (!Number.isInteger(Number(user_id1)) || !Number.isInteger(Number(user_id2))) {
@@ -61,12 +61,11 @@ router.get("/chat/:user_id1", async (req, res) => {
             ORDER BY message_time`;
 
         const chatResult = await db.query(chatQuery, [user_id1, user_id2, process.env.ENCRYPTION_PASSWORD]);
-        const user_info = await db.query(`SELECT * FROM user_db WHERE user_id = $1`, [user_id1]);
+
         res.status(200).json({
             status: "success",
             data: {
                 chats: chatResult.rows,
-                user_info: user_info.rows[0]
             },
         });
     } catch (err) {

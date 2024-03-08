@@ -19,32 +19,7 @@ EXECUTE FUNCTION check_password_update();
 
 
 
-CREATE
-OR REPLACE FUNCTION log_table_changes() RETURNS TRIGGER AS $ $ BEGIN IF TG_OP = 'INSERT' THEN
-INSERT INTO
-    change_log(table_name, column_name, operation)
-VALUES
-    (TG_TABLE_NAME, 'All', 'INSERT');
 
-ELSIF TG_OP = 'UPDATE' THEN
-INSERT INTO
-    change_log(table_name, column_name, operation)
-VALUES
-    (TG_TABLE_NAME, TG_ARGV [0], 'UPDATE');
-
-ELSIF TG_OP = 'DELETE' THEN
-INSERT INTO
-    change_log(table_name, column_name, operation)
-VALUES
-    (TG_TABLE_NAME, 'All', 'DELETE');
-
-END IF;
-
-RETURN NULL;
-
-END;
-
-$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER table_change_trigger
 AFTER
