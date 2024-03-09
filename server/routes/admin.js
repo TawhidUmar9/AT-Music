@@ -173,6 +173,39 @@ router.post("/artists", async (req, res) => {
 });
 
 
-// Add more routes for albums, genres, etc.
+
+router.get("/growth", async (req, res) => {
+    try {
+        // Retrieve purchase growth
+        const purchaseResult = await db.query('SELECT get_purchase_growth() AS purchase_growth');
+        const purchaseGrowth = purchaseResult.rows[0].purchase_growth;
+
+        // Retrieve review growth
+        const reviewResult = await db.query('SELECT get_review_growth() AS review_growth');
+        const reviewGrowth = reviewResult.rows[0].review_growth;
+
+        // Retrieve user growth
+        const userResult = await db.query('SELECT get_user_growth() AS user_growth');
+        const userGrowth = userResult.rows[0].user_growth;
+
+        // Send the growth data as a JSON response
+        res.status(200).json({
+            status: "success",
+            data: {
+                purchase_growth: purchaseGrowth,
+                review_growth: reviewGrowth,
+                user_growth: userGrowth
+            }
+        });
+    } catch (err) {
+        // Handle errors
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        });
+    }
+});
+
 
 module.exports = router;

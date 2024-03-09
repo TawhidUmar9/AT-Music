@@ -48,4 +48,78 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION get_user_growth() RETURNS DECIMAL
+AS $$
+DECLARE
+    new_users_count INTEGER;
+    old_users_count INTEGER;
+    total_users_count INTEGER;
+    growth DECIMAL;
+BEGIN
+    SELECT COUNT(*) INTO total_users_count
+    FROM user_db;
 
+    SELECT COUNT(*) INTO new_users_count
+    FROM user_db
+    WHERE created_on >= CURRENT_DATE - INTERVAL '30 days';
+
+    old_users_count := total_users_count - new_users_count;
+
+    growth := (total_users_count - old_users_count) / total_users_count * 100;
+    RETURN growth;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_purchase_growth() RETURNS DECIMAL
+AS $$
+DECLARE
+    new_purchases_count INTEGER;
+    old_purchases_count INTEGER;
+    total_purchases_count INTEGER;
+    growth DECIMAL;
+BEGIN
+    SELECT COUNT(*) INTO total_purchases_count
+    FROM purchase_history;
+
+    SELECT COUNT(*) INTO new_purchases_count
+    FROM purchase_history
+    WHERE purchase_date >= CURRENT_DATE - INTERVAL '30 days';
+
+    old_purchases_count := total_purchases_count - new_purchases_count;
+
+    IF total_purchases_count = 0 THEN
+        RETURN 0;
+    ELSE
+        growth := (total_purchases_count - old_purchases_count) / total_purchases_count * 100;
+        RETURN growth;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION get_review_growth() RETURNS DECIMAL
+AS $$
+DECLARE
+    new_reviews_count INTEGER;
+    old_reviews_count INTEGER;
+    total_reviews_count INTEGER;
+    growth DECIMAL;
+BEGIN
+    SELECT COUNT(*) INTO total_reviews_count
+    FROM reviews;
+
+    SELECT COUNT(*) INTO new_reviews_count
+    FROM reviews
+    WHERE review_date >= CURRENT_DATE - INTERVAL '30 days';
+
+    old_reviews_count := total_reviews_count - new_reviews_count;
+    IF total_reviews_count = 0 THEN
+        RETURN 0;
+    ELSE
+        growth := (total_reviews_count - old_reviews_count) / total_reviews_count * 100;
+        RETURN growth;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
