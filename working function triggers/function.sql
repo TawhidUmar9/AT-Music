@@ -123,3 +123,35 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION update_song_popularity(song_id_param INTEGER, new_review_rating INTEGER) RETURNS VOID 
+AS $$
+DECLARE
+    current_popularity DECIMAL;
+    new_popularity DECIMAL;
+BEGIN
+    SELECT popularity INTO current_popularity
+    FROM song
+    WHERE song_id = song_id_param;
+
+    IF current_popularity IS NULL THEN
+        new_popularity := new_review_rating; -- Set new popularity as the rating of the new review if no existing popularity
+    ELSE
+        new_popularity := (current_popularity + new_review_rating) / 2.0; -- Calculate average popularity
+    END IF;
+
+    UPDATE song
+    SET popularity = new_popularity
+    WHERE song_id = song_id_param;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION update_song_popularity_trigger() RETURNS TRIGGER AS $$
+BEGIN
+    PERFORM update_song_popularity(NEW.song_id, NEW.rating);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;

@@ -18,3 +18,9 @@ OF password
 ON user_db 
 FOR EACH ROW
     WHEN (NEW.password IS NOT NULL) EXECUTE FUNCTION check_password_update();
+
+
+CREATE TRIGGER review_insert_trigger
+AFTER INSERT ON reviews
+FOR EACH ROW
+EXECUTE FUNCTION update_song_popularity_trigger();
