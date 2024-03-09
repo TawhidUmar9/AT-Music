@@ -5,7 +5,7 @@ const db = require('../db');
 router.get("/", async (req, res) => {
     try {
         const nDaysAgo = new Date();
-        nDaysAgo.setDate(nDaysAgo.getDate() - req.query.n); // Assuming 'n' is passed as a query parameter
+        nDaysAgo.setDate(nDaysAgo.getDate() - req.query.n);
 
         const trendingQuery = `
         SELECT s.song_id,
