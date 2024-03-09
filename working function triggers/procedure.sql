@@ -127,7 +127,7 @@ BEGIN
                        VALUES (t_artist_id, p_song_name, t_album_id, p_song_length,
                         p_age_rating, t_genre_id, p_price) RETURNING song_id INTO t_song_id;
     
-    if song__synopsis.song_id is not    null then
+    if p_synopsis is not null then
         INSERT INTO song_synopsis (song_id, synopsis)
         VALUES (t_song_id, p_synopsis);
     end if;
