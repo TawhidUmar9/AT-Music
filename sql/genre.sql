@@ -88,3 +88,8 @@ VALUES
         'Latin',
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.jVjFElbO2HfaWLsv_trBFQHaE8%26pid%3DApi&f=1&ipt=4bf136cb30afa2f4ee2510a95d07477a70fdd4b16fff0906b6cb8f4a2e249f6c&ipo=images'
     );
+
+
+
+ALTER TABLE genre
+ADD COLUMN total_sold INTEGER DEFAULT 0;

@@ -12,10 +12,7 @@ router.put("/update/:user_id", async (req, res) => {
                 message: "User ID, flag, and update are required"
             });
         }
-        const query =`
-            update user_db 
-            set email = $1, username = $2, phone_number = $3
-            where user_id = $4`
+        const query = `call update_user($1, $2, $3, $4)`
         const result = await db.query(query, [email, username, phone_number, user_id]);
         res.status(200).json({
             status: "success",

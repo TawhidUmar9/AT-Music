@@ -156,21 +156,8 @@ router.post("/artists", async (req, res) => {
                 message: "Artist name is required"
             });
         }
-        // Check if artist already exists
-        const checkQuery = `SELECT * FROM artist WHERE LOWER(artist_name) = LOWER($1)`;
-        const checkResult = await db.query(checkQuery, [artist_name]);
-        if (checkResult.rows.length > 0) {
-            return res.status(400).json({
-                status: "error",
-                message: "Artist already exists"
-            });
-        }
-        // Insert the artist into the database
-        const insertQuery = `
-            INSERT INTO artist (artist_name, alias, small_biography) 
-            VALUES ($1, $2, $3) RETURNING *
-        `;
-        const result = await db.query(insertQuery, [artist_name, alias, small_biography]);
+        const result = await db.query('CALL add_artist($1, $2, $3)', [artist_name, alias, small_biography]);
+
         res.status(201).json({
             status: "success",
             message: `Artist '${artist_name}' added successfully`,
@@ -184,6 +171,7 @@ router.post("/artists", async (req, res) => {
         });
     }
 });
+
 
 // Add more routes for albums, genres, etc.
 
