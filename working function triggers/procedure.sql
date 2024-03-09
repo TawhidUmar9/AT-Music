@@ -31,38 +31,74 @@ DECLARE
     t_genre_id INTEGER;
     t_platform_id INTEGER;
     t_recording_id INTEGER;
+    t_album_year INTEGER;
     t_song_id INTEGER;
     t_composer_id INTEGER;
     t_lyricist_id INTEGER;
     t_producer_id INTEGER;
+    t_album_name VARCHAR;
+    t_artist_name VARCHAR;
 BEGIN
-    IF p_song_name IS NULL OR p_artist_name IS NULL OR p_album_name 
-    IS NULL OR p_age_rating IS NULL OR p_genre_name IS NULL OR p_price IS NULL
-    OR p_recording_type IS NULL OR p_platform_type IS NULL OR p_song_length IS NULL THEN
+    IF p_song_name IS NULL OR p_artist_name IS NULL OR p_age_rating 
+    IS NULL OR p_genre_name IS NULL OR p_price IS NULL OR p_recording_type IS NULL 
+    OR p_platform_type IS NULL OR p_song_length IS NULL THEN
         RAISE EXCEPTION 
-        'Song name, artist name, album name, age rating, genre name, and price are required';
+        'Song name, artist name, age rating, genre name, and price are required';
     END IF;
 
     select song.song_id into t_song_id 
     from song 
     where LOWER(name) = LOWER(p_song_name);
+
     IF t_song_id IS NOT NULL THEN
         RAISE EXCEPTION 'Song already exists';
     END IF;
 
-    select artist.artist_id into t_artist_id 
-    from artist 
-    where LOWER(artist_name) = LOWER(p_artist_name);
-    IF t_artist_id IS NULL THEN
-        RAISE EXCEPTION 'Artist not found';
+    IF p_album_name IS NULL THEN
+        t_album_name := 'unknown album';
+    ELSE
+        t_album_name := p_album_name;
     END IF;
 
-    select album.album_id into t_album_id 
+    IF p_album_name IS NULL THEN
+        t_album_name := 'unknown album';
+    ELSE
+        t_album_name := p_album_name;
+    END IF;
+
+    IF p_artist_name IS NULL THEN
+        t_artist_name := 'unknown artist';
+    ELSE
+        t_artist_name := p_artist_name;
+    END IF;
+
+    select artist.artist_id into t_artist_id 
+    from artist 
+    where LOWER(artist_name) = LOWER(t_artist_name);
+    IF t_artist_id IS NULL THEN
+        INSERT INTO artist (artist_name, alias,artist_intro_video, artist_artwork, small_biography)
+        VALUES (
+            t_artist_name,
+            'unknown alias',
+            'https://youtu.be/P1y2uynnONs?t=8',
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/The_Sounds_of_Earth_-_GPN-2000-001976.jpg/260px-The_Sounds_of_Earth_-_GPN-2000-001976.jpg',
+            'unknown biography'
+            )
+        RETURNING artist_id INTO t_artist_id;
+    END IF;
+
+    select album.album_id into t_album_id
     from album 
-    where LOWER(album_name) = LOWER(p_album_name);
+    where LOWER(album_name) = LOWER(t_album_name);
     IF t_album_id IS NULL THEN
-        INSERT INTO album (album_name, artist_id, album_year) 
-        VALUES (p_album_name, t_artist_id, p_album_year) RETURNING album_id INTO t_album_id;
+        INSERT INTO album (album_name, release_year, artist_id, album_artwork)
+        VALUES (
+            t_album_name, 
+            p_album_year, 
+            t_artist_id,
+            'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.1og9IaU3ZH7psSrD_NKisgHaE8%26pid%3DApi&f=1&ipt=dbdc5fa8b6c7bfa25eee90d006f160308ce590597861d6cb0fbdc4c0af5ca0b8&ipo=images'
+            )
+        RETURNING album_id INTO t_album_id;
     END IF;
 
     select genre.genre_id into t_genre_id
@@ -91,9 +127,10 @@ BEGIN
                        VALUES (t_artist_id, p_song_name, t_album_id, p_song_length,
                         p_age_rating, t_genre_id, p_price) RETURNING song_id INTO t_song_id;
     
-
-    INSERT INTO song_synopsis (song_id, synopsis)
-    VALUES (t_song_id, p_synopsis);
+    if song__synopsis.song_id is not    null then
+        INSERT INTO song_synopsis (song_id, synopsis)
+        VALUES (t_song_id, p_synopsis);
+    end if;
 
     select person_id into t_composer_id
     from people 
@@ -106,7 +143,6 @@ BEGIN
 
     INSERT INTO composer (composer_id, song_id) 
     VALUES (t_composer_id, t_song_id);
-
 
     select person_id into t_lyricist_id
     from people 
@@ -137,7 +173,6 @@ BEGIN
 
     INSERT INTO recording_song (rectype_id, song_id)
     VALUES (t_recording_id, t_song_id);
-
 
 END;
 $$;
