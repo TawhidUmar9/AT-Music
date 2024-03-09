@@ -1,6 +1,8 @@
 CREATE OR REPLACE FUNCTION set_default_popularity() RETURNS TRIGGER 
 AS $$
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('song', 'Function', 'set_default_popularity()', CURRENT_TIMESTAMP);
     UPDATE
         song
     SET
@@ -16,6 +18,8 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION prevent_username_reuse() RETURNS TRIGGER 
 AS $$ 
 BEGIN 
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('user_db', 'Function', 'prevent_username_reuse()', CURRENT_TIMESTAMP);
     IF NEW.username = OLD.username
     AND NEW.email = OLD.email
     AND NEW.phone_number = OLD.phone_number THEN 
@@ -31,6 +35,8 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION check_password_update() RETURNS TRIGGER 
 AS $$ 
 BEGIN 
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('user_db', 'Function', 'check_password_update()', CURRENT_TIMESTAMP);
     IF NEW.password = OLD.password THEN 
         RAISE EXCEPTION 'New password must be different from the previous password';
     END IF;
@@ -43,6 +49,8 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION hash_password(input_text TEXT) RETURNS TEXT 
 AS $$
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('user_db', 'Function', 'hash_password()', CURRENT_TIMESTAMP);
     RETURN md5(input_text);
 END;
 $$ LANGUAGE plpgsql;
@@ -56,6 +64,8 @@ DECLARE
     total_users_count INTEGER;
     growth DECIMAL;
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('user_db', 'Function', 'get_user_growth()', CURRENT_TIMESTAMP);
     SELECT COUNT(*) INTO total_users_count
     FROM user_db;
 
@@ -79,6 +89,8 @@ DECLARE
     total_purchases_count INTEGER;
     growth DECIMAL;
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('purchase', 'Function', 'get_purchase_growth()', CURRENT_TIMESTAMP);
     SELECT COUNT(*) INTO total_purchases_count
     FROM purchase_history;
 
@@ -102,11 +114,14 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION get_review_growth() RETURNS DECIMAL
 AS $$
 DECLARE
+
     new_reviews_count INTEGER;
     old_reviews_count INTEGER;
     total_reviews_count INTEGER;
     growth DECIMAL;
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('song', 'Function', 'get_review_growth()', CURRENT_TIMESTAMP);
     SELECT COUNT(*) INTO total_reviews_count
     FROM reviews;
 
@@ -132,6 +147,8 @@ DECLARE
     current_popularity DECIMAL;
     new_popularity DECIMAL;
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('song', 'Function', 'update_song_popularity()', CURRENT_TIMESTAMP);
     SELECT popularity INTO current_popularity
     FROM song
     WHERE song_id = song_id_param;

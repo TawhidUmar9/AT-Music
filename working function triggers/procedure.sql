@@ -39,6 +39,8 @@ DECLARE
     t_album_name VARCHAR;
     t_artist_name VARCHAR;
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('song', 'Procedure', 'add_song', CURRENT_TIMESTAMP);
     IF p_song_name IS NULL OR p_artist_name IS NULL OR p_age_rating 
     IS NULL OR p_genre_name IS NULL OR p_price IS NULL OR p_recording_type IS NULL 
     OR p_platform_type IS NULL OR p_song_length IS NULL THEN
@@ -188,6 +190,8 @@ CREATE OR REPLACE PROCEDURE add_artist(
 LANGUAGE plpgsql
 AS $$
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('artist', 'Procedure', 'add_artist', CURRENT_TIMESTAMP);
     -- Check if artist already exists
     IF EXISTS (SELECT 1 FROM artist WHERE LOWER(artist_name) = LOWER(p_artist_name)) THEN
         RAISE EXCEPTION 'Artist already exists';
@@ -209,6 +213,8 @@ CREATE OR REPLACE PROCEDURE add_user(
 LANGUAGE plpgsql
 AS $$
 BEGIN
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('user_db', 'Procedure', 'add_user', CURRENT_TIMESTAMP);
     IF EXISTS (SELECT 1 FROM user_db WHERE username = p_username) THEN
         RAISE EXCEPTION 'Username already exists';
     END IF;
@@ -237,6 +243,8 @@ CREATE OR REPLACE procedure update_user(
 )
 AS $$ 
 BEGIN 
+    INSERT INTO change_log (table_name, type, type_name, change_time)
+    VALUES ('user_db', 'Procedure', 'update_user', CURRENT_TIMESTAMP);
     update user_db 
     set email = p_email, username = p_username, phone_number = p_phone_number,
     last_updated = CURRENT_TIMESTAMP
