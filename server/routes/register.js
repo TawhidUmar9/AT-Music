@@ -8,9 +8,8 @@ const db = require('../db');
 router.post('/', async (req, res) => {
     const { username, email, password, phone_number } = req.body;
     try {
-        if(!username|| !email || !password || !phone_number)
-        {
-            
+        if (!username || !email || !password || !phone_number) {
+
         }
         // Check if username already exists
         const checkQueryUserName = `SELECT * FROM user_db WHERE username = $1`;
@@ -45,8 +44,8 @@ router.post('/', async (req, res) => {
 
         // If all checks pass, insert the user into the database
         const query = `INSERT INTO user_db (username, password, email, phone_number, created_on)
-                        VALUES ($1, pgp_sym_encrypt($2, $3), $4, $5, $6) RETURNING *`;
-        const result = await db.query(query, [username, password, process.env.ENCRYPTION_LOGIN, email, phone_number, new Date()]);
+                        VALUES ($1, hash_password($2), $3, $4, $5) RETURNING *`;
+        const result = await db.query(query, [username, password, email, phone_number, new Date()]);
         res.status(201).json({
             status: "success",
             message: "User added successfully",
